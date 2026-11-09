@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EducaFit Desafio — Verdadeiro ou Falso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,600&family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--navy:#12304A;--navy-2:#0C2236;--orange:#F08A1C;--orange-ink:#B4530A;--red:#D9352E;--red-ink:#B42A23;--gold:#F2B33D;--cream:#EDE3C4;--blue:#2B6CB0;--blue-soft:#E0EBF6;--paper:#FBF8F1;--white:#FFFFFF;--muted:#5B7186;--line:#DCE3EA;--mist:#EEF3F7;--ink:#12304A;--serif:'Fraunces',Georgia,serif;--sans:'Nunito Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;min-height:100vh;background:var(--paper);font-family:var(--sans);color:var(--navy)}
+button{font:inherit;font-weight:850;border:0;border-radius:14px;padding:13px 16px;cursor:pointer;transition:transform .12s,filter .15s,background .15s,border-color .15s}
+button:active{transform:translateY(2px)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.hidden{display:none!important}
+.muted{color:var(--muted)}.small{font-size:.92rem}.center{text-align:center}.big{font-size:3rem}
+
+.band{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));height:22px}
+.band i{display:block;position:relative;overflow:hidden}
+.band i:nth-child(6n+1){background:var(--navy)}.band i:nth-child(6n+2){background:var(--orange)}.band i:nth-child(6n+3){background:var(--cream)}.band i:nth-child(6n+4){background:var(--red)}.band i:nth-child(6n+5){background:var(--gold)}.band i:nth-child(6n+6){background:var(--navy)}
+.band i:nth-child(odd)::after{content:"";position:absolute;inset:0;background:var(--gold);clip-path:polygon(0 0,100% 0,0 100%)}
+.band i:nth-child(4n+2)::after{content:"";position:absolute;inset:0;background:var(--cream);border-radius:0 100% 0 0;clip-path:none}
+.band i:nth-child(5n)::after{background:var(--navy)}
+
+.brandbar{max-width:900px;margin:0 auto;padding:16px 16px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brandhome{display:flex;align-items:center;gap:10px}
+.mark{display:grid;grid-template-columns:repeat(2,9px);gap:4px;flex:none}.mark i{display:block;width:9px;height:9px}
+.brandhome b{font-family:var(--serif);font-weight:600;font-size:15px}.brandhome b em{font-style:italic;font-weight:400;color:var(--orange-ink)}
+.disc{padding:6px 12px;border-radius:999px;background:var(--blue);color:var(--white);font-size:10.5px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+
+/* Topo do jogo */
+header.topbar{position:relative;z-index:10;max-width:900px;margin:10px auto 0;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;overflow:visible}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:46px;height:46px;flex:none;border-radius:14px;background:var(--navy);display:grid;place-items:center;font-size:1.5rem;box-shadow:inset -14px -14px 0 var(--orange)}
+.logo{font-family:var(--serif);font-weight:600;font-size:clamp(1.6rem,5vw,2.3rem);letter-spacing:-.01em;color:var(--navy);line-height:1}
+.brand-sub{font-size:.75rem;font-weight:900;letter-spacing:.16em;color:var(--orange-ink);margin-top:6px}
+.stats{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;font-weight:800;position:relative;z-index:11}
+.stat{background:var(--white);color:var(--navy);border:1.5px solid var(--line);padding:8px 11px;border-radius:12px;font-size:.92rem}
+button.stat:hover{border-color:var(--navy)}
+#exitGame{min-height:42px;touch-action:manipulation}
+
+/* Perfil */
+.profile-chip{display:flex;align-items:center;gap:9px;background:var(--white);border:1.5px solid var(--navy);border-radius:999px;padding:5px 12px 5px 6px;color:var(--navy);font-weight:800}
+#profileOpen{position:relative;z-index:20;pointer-events:auto;touch-action:manipulation;min-height:46px;min-width:112px;justify-content:center}
+#profileOpen *{pointer-events:none}
+.profile-avatar{width:34px;height:34px;border-radius:50%;background:var(--blue-soft);border:2px solid var(--blue);display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;overflow:hidden;flex-shrink:0}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.profile-overlay{position:fixed;inset:0;background:rgba(12,34,54,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;pointer-events:auto}
+.profile-overlay.hidden{display:none!important}
+.profile-modal{position:relative;z-index:10000;width:min(100%,430px);max-height:90dvh;overflow-y:auto;background:var(--white);border:2px solid var(--navy);border-radius:24px;padding:22px;box-shadow:0 24px 60px rgba(18,48,74,.3)}
+.profile-modal h2{font-family:var(--serif);font-weight:600;margin:0 0 8px}
+.profile-modal label{display:block;font-weight:800;margin:14px 0 6px}
+.profile-modal input[type=text],#playerNameInput{width:100%;background:var(--paper)!important;color:var(--navy)!important;border:1.5px solid var(--line)!important;border-radius:12px;padding:13px;font:inherit;outline:none}
+.profile-modal input[type=file]{color:var(--navy)!important}
+.profile-modal input:focus,#playerNameInput:focus{border-color:var(--navy)!important}
+.profile-preview{display:flex;align-items:center;gap:12px;margin:14px 0;padding:12px;background:var(--paper);border-radius:15px}
+.profile-preview .profile-avatar{width:64px;height:64px;font-size:1.7rem}
+.profile-hint{font-size:.88rem;color:var(--muted);line-height:1.45}
+.profile-modal .actions{margin-top:18px}
+
+main{max-width:900px;margin:12px auto;padding:0 16px 30px;position:relative}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:26px;padding:clamp(18px,4vw,28px);margin-bottom:16px;box-shadow:0 10px 30px rgba(18,48,74,.06);position:relative;overflow:hidden}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,5vw,2.2rem);line-height:1.15;margin:0 0 8px;color:var(--navy)}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.4rem,4vw,1.8rem);margin:0 0 8px;color:var(--navy)}
+
+/* Início */
+#home.home-screen{padding:0;background:transparent;border:0;box-shadow:none;min-height:0;overflow:visible}
+.hero-card{background:var(--white);border:1px solid var(--line);border-radius:28px;padding:clamp(16px,3vw,22px);text-align:center;margin:4px 0 18px;box-shadow:0 10px 30px rgba(18,48,74,.06)}
+.hero-card h1{font-size:clamp(1.7rem,5.5vw,2.5rem);line-height:1.15;margin:20px auto 10px;max-width:590px}
+.hero-card p{font-size:clamp(1rem,3vw,1.15rem);line-height:1.55;margin:0 auto;max-width:540px;color:#3A5670}
+.hero-card .author{font-size:.9rem;color:var(--muted);margin-top:10px}.hero-card .author b{color:var(--navy)}
+.stadium-art{height:clamp(190px,42vw,300px);border-radius:20px;overflow:hidden;position:relative;background:var(--navy)}
+.sport-carousel{isolation:isolate}
+.sport-slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease;z-index:0}
+.sport-slide.active{opacity:1;z-index:1}
+.sport-slide img{width:100%;height:100%;display:block;object-fit:cover}
+.sport-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,48,74,0) 45%,rgba(18,48,74,.75) 100%)}
+.stadium-lights,.stadium-field{display:none}
+.stadium-label{position:absolute;z-index:3;left:14px;bottom:12px;padding:6px 12px;border-radius:999px;background:var(--orange);color:var(--navy);font-size:.75rem;font-weight:900;letter-spacing:.12em}
+.sport-dots{position:absolute;z-index:4;right:14px;top:14px;display:flex;gap:6px}
+.sport-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55)}
+.sport-dots span.active{background:var(--white);width:22px;border-radius:99px}
+.play-big{width:100%;min-height:100px;border-radius:22px;background:var(--navy);color:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:clamp(1.25rem,4vw,1.6rem);letter-spacing:.06em}
+.play-big:hover{background:var(--navy-2)}
+.play-symbol{font-size:1.1rem;line-height:1;background:var(--orange);color:var(--navy);border-radius:50%;width:38px;height:38px;display:grid;place-items:center;padding-left:3px}
+.home-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.home-tile{position:relative;overflow:hidden;background:var(--white);color:var(--navy);border:1.5px solid var(--line);border-radius:22px;min-height:150px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:18px 10px}
+.home-tile::after{content:"";position:absolute;right:-18px;top:-18px;width:58px;height:58px;border-radius:50%;opacity:.9}
+#friend::after{background:var(--gold)}#rankingBtn::after{background:var(--orange)}#profileBtn::after{background:var(--blue)}#phasesBtn::after{background:var(--red)}
+.home-tile:hover{border-color:var(--navy);transform:translateY(-3px)}
+.tile-icon{font-size:1.9rem;color:var(--navy);line-height:1.25}.tile-icon.gold{color:var(--orange-ink)}
+.home-tile strong{font-family:var(--serif);font-weight:600;font-size:clamp(1.15rem,4vw,1.45rem)}
+.home-tile small{font-size:.95rem;font-weight:600;color:var(--muted)}
+.home-note{text-align:center;margin:16px 0;color:var(--muted);font-weight:700}
+
+/* Fases */
+.lesson-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}
+.lesson{display:flex;align-items:center;gap:12px;text-align:left;background:var(--white);border:1.5px solid var(--line);color:var(--navy);min-height:88px;border-radius:18px}
+.lesson:hover:not(:disabled){border-color:var(--navy);transform:translateY(-2px)}
+.lesson .emoji{font-size:1.8rem;width:50px;height:50px;flex:none;border-radius:14px;background:var(--blue-soft);display:grid;place-items:center}
+.lesson strong{font-family:var(--serif);font-weight:600;font-size:1.05rem}
+.lesson small{display:block;color:var(--muted);font-weight:700;margin-top:3px}
+.lesson.locked{opacity:.5}
+
+/* Partida */
+.tag{display:inline-block;background:var(--blue-soft);color:#1E4F82;padding:6px 12px;border-radius:99px;font-weight:900;font-size:.8rem;letter-spacing:.06em}
+#timer{font-family:var(--serif);font-weight:600;color:var(--orange-ink);font-size:1.35rem}
+.progress{height:10px;background:var(--mist);border-radius:99px;overflow:hidden;margin:16px 0}
+.progress div{height:100%;background:var(--orange);border-radius:99px;width:0;transition:width .2s}
+.question{position:relative;font-family:var(--serif);font-size:clamp(1.3rem,4vw,1.75rem);font-weight:600;line-height:1.35;margin:18px 4px 22px;padding:40px 28px;min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--white);border:2px solid var(--navy);border-radius:24px;box-shadow:0 14px 0 -4px var(--gold),0 18px 40px rgba(18,48,74,.14);color:var(--navy)!important}
+.question::before,.question::after{position:absolute;font-family:var(--serif);font-size:20px;font-weight:600;line-height:1}
+.question::before{content:"V";left:16px;top:12px}
+.question::after{content:"F";right:16px;bottom:12px;transform:rotate(180deg)}
+#choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{width:100%;margin:0;text-align:center;font-size:1rem;letter-spacing:.03em;white-space:nowrap;text-transform:uppercase;padding:16px 10px;border:2px solid transparent}
+.choice[data-answer="false"]{order:-1;background:var(--red);color:var(--white)}
+.choice[data-answer="true"]{background:var(--orange);color:var(--navy)}
+.choice:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.04)}
+.choice:disabled{opacity:.5}
+.choice.correct{opacity:1!important;background:#FFF4E5;color:#9A4508;border-color:var(--orange)}
+.choice.wrong{opacity:1!important;background:#FDEEEC;color:var(--red-ink);border-color:var(--red)}
+.feedback{padding:14px 16px;border:1.5px solid var(--line);border-radius:16px;margin-top:14px;font-weight:700;line-height:1.5;background:var(--paper);color:var(--navy)}
+.feedback.good{background:#FFF4E5;color:#7A3A06;border-color:#F7C98F}
+.feedback.bad{background:#FDEEEC;color:#8E1F1A;border-color:#F2B7B2}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.actions button{flex:1}
+.primary{background:var(--navy);color:var(--white);letter-spacing:.04em}
+.primary:hover:not(:disabled){background:var(--navy-2)}
+.secondary{background:var(--white);color:var(--navy);border:1.5px solid var(--navy)}
+.secondary:hover{background:var(--paper)}
+
+/* Resultado */
+.result-celebration{position:relative;overflow:hidden;text-align:center!important;background:var(--white)!important;border:2px solid var(--navy)!important;animation:resultPop .55s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes resultPop{0%{opacity:0;transform:scale(.9) translateY(18px)}100%{opacity:1;transform:none}}
+.result-trophy{font-size:clamp(4rem,14vw,5.5rem);animation:trophyBounce 1s ease-in-out both}
+@keyframes trophyBounce{0%{transform:translateY(-40px) scale(.5) rotate(-15deg)}65%{transform:translateY(8px) scale(1.13) rotate(7deg)}100%{transform:none}}
+.confetti{position:absolute;inset:8px 0 auto;height:90px;pointer-events:none;display:flex;justify-content:space-around;opacity:.85}
+.confetti span{font-size:1.4rem;animation:confettiFloat 2s ease-in-out infinite}
+.confetti span:nth-child(2n){animation-delay:.35s}.confetti span:nth-child(3n){animation-delay:.7s}
+@keyframes confettiFloat{0%,100%{transform:translateY(0) rotate(-8deg);opacity:.45}50%{transform:translateY(22px) rotate(15deg);opacity:1}}
+.phase-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:22px 0 12px;text-align:left}
+.phase-stat{display:grid;grid-template-columns:34px 1fr;align-items:center;column-gap:8px;background:var(--paper);border:1px solid var(--line);border-top:5px solid var(--orange);border-radius:16px;padding:13px}
+.phase-stat:nth-child(2){border-top-color:var(--gold)}.phase-stat:nth-child(3){border-top-color:var(--blue)}.phase-stat:nth-child(4){border-top-color:var(--red)}
+.phase-stat>span{grid-row:span 2;font-size:1.5rem}
+.phase-stat small{color:var(--muted);font-size:.8rem;font-weight:800}
+.phase-stat strong{font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--navy)}
+.record-message{min-height:1.4em;color:var(--orange-ink);font-weight:900}
+#extras .feedback p{margin:6px 0}
+
+footer{text-align:center;color:var(--muted);font-size:.8rem;line-height:1.6;padding:6px 16px 18px}
+footer b{color:var(--navy)}footer a{font-weight:800;color:var(--orange-ink)}
+
+@media(min-width:560px){.phase-stats{grid-template-columns:repeat(4,minmax(0,1fr))}.phase-stat{grid-template-columns:1fr;text-align:center;justify-items:center}.phase-stat>span{grid-row:auto}}
+@media(max-width:520px){header.topbar{flex-direction:column;align-items:flex-start;gap:12px}.stats{justify-content:flex-start;width:100%}.profile-chip .profile-label{display:none}#profileOpen{min-width:64px}.home-tile{min-height:136px}.play-big{min-height:92px}.question{padding:36px 18px;min-height:190px}.disc{display:none}}
+@media(prefers-reduced-motion:reduce){.sport-slide,.result-celebration,.result-trophy,.confetti span{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="brandbar"><div class="brandhome"><span class="mark" aria-hidden="true"><i style="background:#12304A"></i><i style="background:#F08A1C"></i><i style="background:#D9352E"></i><i style="background:#F2B33D"></i></span><b>Conhecimento <em>em Jogo</em></b></div><span class="disc">Educação Física</span></div>
+<header class="topbar"><div class="brand"><span class="brand-icon">🏆</span><div><div class="logo">EDUCAFIT</div><div class="brand-sub">DESAFIO • EDUCAÇÃO FÍSICA</div></div></div><div class="stats"><button class="profile-chip" id="profileOpen" type="button" aria-label="Editar perfil"><span class="profile-avatar" id="headerAvatar">👤</span><span class="profile-label" id="headerNickname">Jogador</span><span aria-hidden="true">✎</span></button><button class="stat" id="exitGame" type="button" title="Sair da partida e voltar ao início">↩️ Sair</button><button class="stat" id="soundToggle" type="button" aria-pressed="true" title="Ativar/desativar sons">🔊 Som</button><div class="stat">⭐ <span id="xp">0</span> XP</div><div class="stat">❤️ <span id="lives">6</span></div><div class="stat">🔥 <span id="streak">0</span></div></div></header>
+
+<div id="profileOverlay" class="profile-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+  <section class="profile-modal">
+    <h2 id="profileTitle">👤 Editar perfil</h2>
+    <p class="profile-hint">Escolha um apelido e, se quiser, uma foto. As informações ficam salvas neste dispositivo.</p>
+    <div class="profile-preview">
+      <span class="profile-avatar" id="profilePreviewAvatar">👤</span>
+      <div><strong id="profilePreviewName">Jogador</strong><div class="profile-hint">Prévia do seu perfil</div></div>
+    </div>
+    <label for="profileNickname">Apelido</label>
+    <input id="profileNickname" type="text" maxlength="20" autocomplete="nickname" placeholder="Digite seu apelido">
+    <label for="profilePhoto">Foto de perfil</label>
+    <input id="profilePhoto" type="file" accept="image/*" style="width:100%;color:#eaf0ff">
+    <p class="profile-hint">Escolha uma foto da galeria do celular. A foto aparece no perfil e na tela inicial e fica salva neste navegador.</p>
+    <div class="actions">
+      <button class="secondary" id="profileCancel" type="button">Cancelar</button>
+      <button class="primary" id="profileSave" type="button">Salvar perfil</button>
+    </div>
+  </section>
+</div>
+
+<main>
+<section id="home" class="panel home-screen">
+<div class="hero-card"><div class="stadium-art sport-carousel" role="region" aria-label="Imagens de educação física e esportes">
+  <div class="sport-slide active" data-caption="EDUCAFIT ARENA"><img alt="Estádio de futebol" src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1200&q=85"></div>
+  <div class="sport-slide" data-caption="FUTEBOL"><img alt="Campo de futebol" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=85"></div>
+  <div class="sport-slide" data-caption="BASQUETE"><img alt="Quadra de basquete" src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=85"></div>
+  <div class="sport-slide" data-caption="CORRIDA"><img alt="Corrida e atletismo" src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=1200&q=85"></div>
+  <div class="sport-slide" data-caption="VÔLEI"><img alt="Voleibol" src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=85"></div>
+  <div class="stadium-lights"></div><div class="stadium-field"></div>
+  <div class="stadium-label" id="sportCaption">EDUCAFIT ARENA</div>
+  <div class="sport-dots" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+</div>
+<h1>ESTÁ PRONTO PARA O DESAFIO?</h1>
+<p class="muted">Teste seus conhecimentos, ganhe XP e suba no ranking!</p><p class="author">Criado por <b>Italo C.</b> · 6º ano</p></div>
+<button class="primary play-big" id="play"><span class="play-symbol">▷</span><span>JOGAR AGORA</span></button>
+<div class="home-tiles">
+<button class="home-tile" id="friend"><span class="tile-icon">♧</span><strong>Modo amigo</strong><small>Jogue em dupla</small></button>
+<button class="home-tile" id="rankingBtn"><span class="tile-icon gold">🏅</span><strong>Ranking</strong><small>Veja os recordes</small></button>
+<button class="home-tile" id="profileBtn"><span class="tile-icon">♙⚙</span><strong>Perfis</strong><small>Edite seu jogador</small></button>
+<button class="home-tile" id="phasesBtn"><span class="tile-icon">◫</span><strong>Fases</strong><small>Veja seu progresso</small></button>
+</div><p class="small muted home-note">6 vidas • 10 XP por acerto • 20 segundos por pergunta</p>
+</section>
+<section id="extras" class="panel hidden"><h2 id="extrasTitle">Ranking</h2><div id="extrasContent"></div><div class="actions"><button class="secondary" id="extrasBack">Voltar ao início</button></div></section>
+<section id="map" class="panel hidden"><h2>Escolha uma fase — nível desafio</h2><p class="muted">Complete as fases para desbloquear a próxima.</p><div id="lessons" class="lesson-list"></div><div class="actions"><button class="secondary" id="backHome">Voltar</button></div></section>
+<section id="game" class="panel hidden">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><span class="tag" id="lessonName">Fase 1</span><strong>⏱️ <span id="timer">20</span>s</strong></div>
+<div class="progress"><div id="bar"></div></div>
+<div class="muted small">Pergunta <span id="qnum">1</span> de <span id="qtotal">10</span></div>
+<div class="question" id="question">Pergunta aqui</div>
+<div id="choices"><button class="choice" data-answer="true">Verdadeiro ✓</button><button class="choice" data-answer="false">✕ Falso</button></div>
+<div id="feedback" class="feedback hidden"></div>
+<div class="actions"><button class="primary" id="continue" disabled>CONTINUAR ➜</button></div>
+</section>
+<section id="result" class="panel hidden center result-celebration"><div class="confetti" aria-hidden="true"><span>⭐</span><span>✨</span><span>🏆</span><span>🎉</span><span>⭐</span><span>✨</span></div><div class="big result-trophy" id="resultEmoji">🏆</div><h1 id="resultTitle">Muito bem!</h1><p id="resultText"></p><div id="phaseStats" class="phase-stats"><div class="phase-stat"><span>⭐</span><small>Pontos da fase</small><strong id="phasePoints">0</strong></div><div class="phase-stat"><span>🏅</span><small>Seu recorde</small><strong id="phaseRecord">0</strong></div><div class="phase-stat"><span>⏱️</span><small>Tempo total</small><strong id="phaseTime">00:00</strong></div><div class="phase-stat"><span>🔥</span><small>XP acumulado</small><strong id="phaseXP">0</strong></div></div><p id="recordMessage" class="record-message"></p><div class="actions"><button class="primary" id="resultAgain">Jogar de novo</button><button class="secondary" id="resultMap">Ver fases</button></div></section>
+</main><footer>EducaFit • Aprender, movimentar e se divertir! ⚽🏐<br><b>Conhecimento em Jogo</b> · Inclusão Digital · Projeto de Alejandro C. Melgaço<br><a href="../index.html">← Ver todos os jogos da coletânea</a></footer>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<script>
+const lessons=[
+{name:'Movimento e corpo',emoji:'🏃',qs:[
+["O sistema cardiorrespiratório participa do transporte de oxigênio durante o exercício.",true,"Coração, vasos sanguíneos e pulmões trabalham juntos para levar oxigênio aos tecidos."],
+["Sentir dor forte durante um alongamento é sinal de que ele está funcionando melhor.",false,"Alongamento não deve causar dor forte; reduza o movimento e pare se houver dor."],
+["A frequência cardíaca pode aumentar durante uma atividade física porque os músculos precisam de mais oxigênio.",true,"O coração bombeia mais sangue para atender à demanda do corpo."],
+["Apenas exercícios muito intensos podem trazer benefícios à saúde.",false,"Atividades moderadas e brincadeiras ativas também podem trazer benefícios."],
+["Coordenação motora envolve organizar movimentos de forma controlada.",true,"Ela ajuda a combinar movimentos do corpo em uma tarefa."],
+["O aquecimento substitui a necessidade de respeitar os limites do próprio corpo.",false,"Aquecer ajuda, mas não elimina a importância de respeitar limites e sinais de mal-estar."],
+["Equilíbrio é a capacidade de manter ou recuperar a estabilidade do corpo.",true,"O equilíbrio pode ser estático ou dinâmico."],
+["Flexibilidade e força muscular significam exatamente a mesma coisa.",false,"Flexibilidade é a amplitude de movimento; força é a capacidade de produzir tensão."],
+["Sono e recuperação podem influenciar o desempenho físico.",true,"O corpo precisa de descanso para recuperar-se."],
+["Se houver tontura durante o exercício, é melhor parar e avisar um responsável.",true,"Não ignore sinais de mal-estar; interrompa a atividade e peça ajuda."],
+]},
+{name:'Baleado / Queimada',emoji:'🥎',qs:[
+["No baleado, as regras sobre rebater a bola ou salvar colegas podem variar conforme a versão combinada.",true,"Existem variações regionais e escolares; o grupo deve combinar as regras antes."],
+["Mirar na cabeça de propósito é uma estratégia recomendada para vencer com segurança.",false,"Evite mirar na cabeça; segurança e regras combinadas vêm primeiro."],
+["Uma bola que toca o chão antes de acertar alguém costuma ser considerada diferente de um acerto direto, dependendo das regras locais.",true,"Esse detalhe varia por versão, por isso deve ser combinado antes do jogo."],
+["Combinar previamente o que acontece quando alguém é atingido reduz discussões durante a partida.",true,"Regras claras tornam o jogo mais justo."],
+["Um jogador deve continuar a partida mesmo se um colega se machucar.",false,"Pare a atividade e chame um adulto para ajudar."],
+["Adaptar tamanho da área, bola ou regras pode ampliar a participação.",true,"Adaptações podem deixar a atividade mais acessível."],
+["Empurrar ou agarrar adversários é necessário para defender alguém no baleado.",false,"Use apenas ações permitidas pelas regras e evite contato perigoso."],
+["O trabalho em equipe pode envolver comunicação e posicionamento, não apenas arremessar forte.",true,"Estratégia e cooperação também contam."],
+["É possível definir uma regra de segurança para interromper o jogo quando alguém cair.",true,"Combinar esse procedimento ajuda a prevenir acidentes."],
+["Como existem versões diferentes do baleado, não é correto presumir que toda escola use regras idênticas.",true,"As regras locais devem ser explicadas antes da partida."],
+]},
+{name:'Futebol e futsal',emoji:'⚽',qs:[
+["No futebol, a bola precisa ultrapassar completamente a linha de gol para que seja marcado um gol.",true,"A bola deve cruzar totalmente a linha entre as traves e sob o travessão, respeitando as regras."],
+["Um jogador está automaticamente impedido só por estar à frente do penúltimo adversário.",false,"A posição só é punível se participar ativamente da jogada; há exceções e detalhes na regra."],
+["Um tiro de saída pode resultar diretamente em gol contra a equipe adversária, conforme as regras atuais do futebol.",true,"É possível marcar diretamente contra o adversário em um tiro de saída."],
+["No futsal, a reposição lateral é feita com as mãos como no futebol de campo.",false,"No futsal, a bola é reposta com os pés."],
+["O goleiro pode usar as mãos em qualquer lugar da quadra ou campo sem restrições.",false,"O uso das mãos é limitado por regras específicas, incluindo a área penal no futebol."],
+["No futebol, uma infração de impedimento é julgada no momento em que um companheiro joga ou toca a bola.",true,"A posição é avaliada no momento do passe ou toque do companheiro."],
+["No futsal oficial, cada equipe joga normalmente com cinco atletas em quadra, incluindo o goleiro.",true,"A formação padrão é de cinco jogadores por equipe."],
+["Uma falta pode resultar em tiro livre, pênalti ou sanção disciplinar, dependendo da infração e do local.",true,"A consequência depende do tipo e da localização da infração."],
+["No futebol, tocar a bola acidentalmente com a mão é sempre falta, sem considerar a situação.",false,"A regra considera circunstâncias como posição do braço e ação do jogador."],
+["Passar a bola para um companheiro pode ser mais eficaz do que tentar driblar todos os adversários.",true,"A decisão depende da situação de jogo e do posicionamento."],
+]},
+{name:'Vôlei',emoji:'🏐',qs:[
+["Na regra oficial do vôlei de quadra, a equipe tem até três toques para devolver a bola, além do toque de bloqueio.",true,"O contato de bloqueio não conta como um dos três toques da equipe."],
+["O mesmo jogador pode tocar a bola duas vezes seguidas em qualquer situação sem exceções.",false,"Há exceções específicas, como certos contatos após bloqueio, mas a regra geral restringe toques consecutivos."],
+["A rotação ocorre quando a equipe que recebia ganha o direito de sacar.",true,"A equipe roda uma posição no sentido horário ao recuperar o saque."],
+["Uma bola que toca a linha da quadra é considerada fora.",false,"As linhas fazem parte da quadra; a bola que toca a linha é dentro."],
+["O bloqueio pode ser realizado por um ou mais jogadores próximos à rede.",true,"O bloqueio tenta impedir ou desviar o ataque adversário."],
+["No vôlei, segurar ou lançar a bola caracteriza um contato regular.",false,"A bola deve ser rebatida; condução ou lançamento não são contatos regulares."],
+["O jogador líbero tem restrições específicas e não pode atuar livremente em todas as funções.",true,"O líbero é especialista em defesa e recepção, com limitações próprias."],
+["O saque pode tocar na rede e continuar válido se passar para o lado adversário dentro das regras.",true,"Um saque que toca na rede e passa corretamente pode permanecer em jogo."],
+["A equipe conquista um ponto apenas quando está sacando.",false,"No sistema atual de rally point, cada jogada pode resultar em ponto para uma das equipes."],
+["A comunicação entre levantador, atacantes e passadores pode ajudar a organizar a jogada.",true,"A comunicação ajuda a coordenar a construção do ataque."],
+]},
+{name:'Basquete e handebol',emoji:'🏀',qs:[
+["No basquete, driblar novamente após encerrar o drible e segurar a bola pode configurar violação.",true,"É a chamada violação de duplo drible, salvo situações previstas nas regras."],
+["No basquete, uma cesta de lance livre vale três pontos.",false,"Um lance livre convertido vale um ponto."],
+["No basquete, uma cesta feita de trás da linha de três pontos vale três pontos.",true,"A posição do arremessador no momento do salto e da soltura é relevante."],
+["No handebol, jogadores de linha podem entrar livremente na área do goleiro para obter vantagem.",false,"A área é restrita; entrar nela de forma irregular pode gerar punição."],
+["No handebol, o jogador pode dar até três passos sem driblar antes de passar, arremessar ou começar a driblar.",true,"A regra dos três passos é uma referência básica da modalidade."],
+["No basquete, caminhar com a bola sem driblar de forma permitida pode ser uma violação.",true,"A regra de andar controla os passos com a bola."],
+["No handebol, o goleiro pode defender dentro da área de gol conforme as regras específicas da posição.",true,"A área de gol tem regras próprias para o goleiro."],
+["No basquete, todo contato físico é permitido porque é um esporte de contato.",false,"O contato é regulado e pode ser marcado como falta."],
+["No handebol, uma equipe normalmente tenta criar espaço para um arremesso em boa posição.",true,"Movimentação e passes ajudam a construir oportunidades."],
+["A contagem de pontos e as regras podem mudar entre competições escolares e regulamentos oficiais.",true,"É importante saber qual regulamento está sendo usado."],
+]},
+{name:'Badminton e tênis de mesa',emoji:'🏸',qs:[
+["No badminton, a peteca pode tocar o chão dentro da área válida para encerrar o rally.",true,"A peteca no chão encerra a jogada e define o ponto conforme a situação."],
+["No badminton, a peteca pode quicar no chão e continuar em jogo como uma bola de tênis.",false,"A peteca não deve tocar o chão durante o rally."],
+["No tênis de mesa, o saque deve quicar primeiro no lado do sacador e depois no lado do recebedor.",true,"Essa é a sequência básica do saque em simples."],
+["No tênis de mesa, tocar a mesa com a mão livre durante o rally pode configurar falta.",true,"A mão livre não pode tocar a superfície de jogo durante a disputa."],
+["No badminton, em duplas, a área válida de saque é igual à área válida de saque em simples.",false,"As áreas de saque e de jogo variam entre simples e duplas."],
+["No tênis de mesa, a bola pode tocar a rede durante um rally e a jogada continuar se passar corretamente.",true,"Durante a troca, um toque na rede não encerra automaticamente o ponto."],
+["No badminton, a raquete precisa tocar a peteca abaixo da altura da cintura em toda e qualquer situação, conforme qualquer regra atual.",false,"A regra do saque tem critérios técnicos específicos; essa formulação absoluta não está correta para toda situação."],
+["No tênis de mesa, uma bola que toca a linha da mesa é considerada válida.",true,"As linhas fazem parte da superfície válida de jogo."],
+["No badminton, controlar a força e a direção pode ser tão importante quanto bater forte.",true,"Precisão e posicionamento ajudam a dificultar a devolução."],
+["Em ambos os esportes, observar o posicionamento do adversário ajuda a escolher a direção da jogada.",true,"A leitura do jogo apoia a tomada de decisão."],
+]},
+{name:'Atletismo e ginástica',emoji:'🏅',qs:[
+["Em uma corrida, sair antes do sinal pode ser considerado falsa partida conforme o regulamento.",true,"A largada deve respeitar o sinal e as regras da prova."],
+["No salto em distância, o resultado é medido a partir da tábua de impulsão até a marca mais próxima deixada na areia.",true,"A medição considera a marca mais próxima da linha de impulsão."],
+["No revezamento, o bastão pode ser passado em qualquer lugar da pista sem limites.",false,"A passagem deve ocorrer dentro da zona regulamentar."],
+["Em provas de corrida, manter o ritmo adequado pode ser uma estratégia melhor do que começar no máximo e perder velocidade.",true,"A estratégia depende da distância e das características do atleta."],
+["Na ginástica, a execução técnica e o controle corporal podem ser avaliados além da dificuldade do movimento.",true,"A avaliação pode considerar execução e outros critérios do regulamento."],
+["Aquecimento e progressão gradual eliminam totalmente o risco de lesões.",false,"Eles podem reduzir riscos, mas não eliminam todos os riscos."],
+["No lançamento de dardo, o implemento deve ser lançado seguindo a técnica e a área regulamentar da prova.",true,"A prova tem regras específicas de execução e setor de queda."],
+["Flexibilidade, força, equilíbrio e coordenação podem contribuir para diferentes modalidades de ginástica.",true,"As capacidades exigidas variam conforme a modalidade."],
+["Em uma competição, ultrapassar os limites da área de prova pode invalidar uma tentativa, conforme a regra.",true,"Os limites e critérios variam de acordo com a prova."],
+["Uma boa técnica pode melhorar o desempenho e também ajudar a controlar os movimentos.",true,"A técnica contribui para eficiência e controle."],
+]},
+{name:'Capoeira e lutas',emoji:'🥋',qs:[
+["A capoeira combina elementos como luta, jogo, música e expressão cultural.",true,"A capoeira é uma manifestação cultural brasileira com diferentes dimensões."],
+["Em uma atividade de luta, respeitar o sinal de parar é opcional quando alguém está vencendo.",false,"Os sinais e orientações de segurança devem ser respeitados imediatamente."],
+["O objetivo de uma aula de lutas deve incluir controle corporal, respeito e segurança, não apenas vencer.",true,"A aprendizagem envolve técnica, autocontrole e convivência."],
+["Toda modalidade de luta possui exatamente as mesmas regras e pontuação.",false,"Cada modalidade tem regulamento e objetivos próprios."],
+["Na capoeira, a roda organiza o espaço de jogo e envolve participantes e música.",true,"A roda é um elemento central em muitas práticas de capoeira."],
+["Equipamentos de proteção e supervisão adequada podem ser importantes em atividades de combate.",true,"As medidas dependem da modalidade e da atividade."],
+["Uma técnica esportiva deve ser praticada em colegas sem orientação, porque isso acelera o aprendizado.",false,"Aprenda com orientação e em condições seguras."],
+["Conhecer a cultura e a história de uma luta pode fazer parte da Educação Física.",true,"As modalidades também carregam histórias e tradições."],
+["Autocontrole é importante para evitar que uma atividade esportiva vire uma briga.",true,"Luta esportiva tem regras, supervisão e respeito."],
+["A mesma técnica é sempre permitida em treino, competição e qualquer contexto fora do esporte.",false,"As permissões variam por regulamento e contexto; fora do esporte, não se deve usar técnicas para agredir."],
+]},
+{name:'Natação',emoji:'🏊',qs:[
+["A respiração na natação precisa ser coordenada com os movimentos e varia conforme o estilo.",true,"Cada estilo tem padrões de respiração característicos."],
+["Saber nadar elimina a necessidade de supervisão e de regras de segurança na água.",false,"Mesmo nadadores experientes precisam respeitar a segurança aquática."],
+["No nado costas, o nadador realiza o deslocamento com o corpo voltado predominantemente para cima.",true,"Essa é uma característica do estilo costas."],
+["No nado peito, movimentos simultâneos dos braços e das pernas fazem parte da técnica.",true,"O estilo peito usa movimentos simétricos característicos."],
+["É seguro mergulhar de cabeça em qualquer piscina, independentemente da profundidade.",false,"Nunca mergulhe sem confirmar que o local é apropriado e seguro."],
+["A flutuação depende, entre outros fatores, do ar nos pulmões e da posição do corpo.",true,"A posição e a respiração influenciam a flutuação."],
+["A técnica de saída e de virada pode influenciar o tempo em provas de natação.",true,"Essas fases também contribuem para o desempenho."],
+["Uma pessoa com dificuldade na água deve tentar resolver tudo sozinha antes de pedir ajuda.",false,"Peça ajuda a um responsável ou profissional; não se coloque em risco."],
+["A natação pode ser praticada para lazer, condicionamento físico ou competição.",true,"A modalidade tem diferentes objetivos e contextos."],
+["Em atividades aquáticas, seguir as orientações do professor e as regras do local é essencial.",true,"Orientações e supervisão ajudam a prevenir acidentes."],
+]},
+{name:'Inclusão e fair play',emoji:'🤝',qs:[
+["Fair play significa competir com respeito às regras, aos adversários e aos árbitros.",true,"O jogo limpo envolve ética e respeito."],
+["Para ser inclusivo, um jogo precisa manter todas as regras inalteradas em qualquer situação.",false,"Adaptações podem favorecer participação e acessibilidade."],
+["Adaptar materiais, espaço ou tempo pode ajudar pessoas com diferentes habilidades a participar.",true,"A adaptação deve considerar as necessidades dos participantes."],
+["Dar vantagem a alguém por meio de humilhação ou exclusão é compatível com o espírito esportivo.",false,"Respeito e inclusão são fundamentais."],
+["A arbitragem pode aplicar sanções quando uma regra é violada.",true,"As sanções dependem do regulamento."],
+["Trabalho em equipe significa que todos precisam ter a mesma habilidade física.",false,"Papéis e capacidades podem ser diferentes e complementares."],
+["Ouvir os participantes ajuda a perceber barreiras que dificultam a participação.",true,"A participação e o diálogo podem orientar adaptações."],
+["Respeitar diferenças inclui evitar apelidos ofensivos e comentários discriminatórios.",true,"A convivência respeitosa é parte do ambiente esportivo."],
+["Uma regra adaptada deve ser explicada antes do jogo para que todos entendam como participar.",true,"Clareza ajuda a manter a atividade justa."],
+["Vencer é mais importante do que a segurança e o respeito aos participantes.",false,"Segurança, respeito e participação são mais importantes que vencer a qualquer custo."],
+]},
+{name:'Estratégia e segurança',emoji:'🧠',qs:[
+["Uma decisão tática eficaz considera o objetivo da jogada, o espaço disponível e a posição dos colegas e adversários.",true,"A leitura do jogo ajuda a escolher entre passar, avançar ou manter a posse."],
+["A estratégia que funciona em uma equipe sempre funciona da mesma forma contra qualquer adversário.",false,"A estratégia deve ser ajustada à situação e ao adversário."],
+["Regras claras antes de uma brincadeira podem reduzir conflitos e aumentar a segurança.",true,"Combinar limites e procedimentos ajuda todos a entender o jogo."],
+["Usar equipamento danificado é aceitável se a partida estiver perto do fim.",false,"Materiais danificados devem ser retirados de uso e comunicados ao responsável."],
+["O espaço de jogo deve ser verificado para identificar obstáculos e riscos antes da atividade.",true,"A inspeção ajuda a prevenir acidentes."],
+["A hidratação e as pausas podem ser importantes dependendo da duração, intensidade e condições ambientais.",true,"As necessidades variam com o esforço e o ambiente."],
+["A dor forte é um sinal que deve ser ignorado para demonstrar determinação.",false,"Pare a atividade e avise um adulto ou profissional responsável."],
+["No esporte, analisar erros pode ajudar a ajustar a estratégia para a próxima tentativa.",true,"A reflexão ajuda a aprender e melhorar decisões."],
+["A mesma carga de exercício é adequada para todas as pessoas, independentemente de idade e experiência.",false,"A atividade deve considerar as condições e capacidades de cada pessoa."],
+["Uma boa competição pode combinar desafio, respeito, regras claras e segurança.",true,"Competir bem envolve mais do que o resultado."],
+]},
+];
+
+let soundEnabled = true;
+let audioCtx = null;
+function playTone(freq, duration=0.12, type="sine", volume=0.055, delay=0) {
+  if (!soundEnabled) return;
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+    gain.gain.setValueAtTime(0.0001, audioCtx.currentTime + delay);
+    gain.gain.exponentialRampToValueAtTime(volume, audioCtx.currentTime + delay + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + delay + duration);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(audioCtx.currentTime + delay);
+    osc.stop(audioCtx.currentTime + delay + duration + 0.03);
+  } catch(e) {}
+}
+function soundCorrect(){ playTone(660,.12,"sine",.06); playTone(880,.18,"sine",.055,.11); }
+function soundWrong(){ playTone(220,.18,"triangle",.06); playTone(165,.24,"triangle",.05,.13); }
+function soundClick(){ playTone(520,.045,"sine",.025); }
+function soundTick(){ playTone(740,.045,"square",.018); }
+function soundWin(){ [523,659,784,1046].forEach((n,i)=>playTone(n,.18,"sine",.045,i*.11)); }
+function soundLose(){ [392,330,262].forEach((n,i)=>playTone(n,.2,"triangle",.04,i*.15)); }
+
+let xp=0,lives=6,streak=0,lessonIndex=0,qIndex=0,score=0,friendMode=false,player=1,players=[0,0],timerId=null,timeLeft=20,answered=false,unlocked=0,lessonStartedAt=Date.now();
+try{unlocked=Number(localStorage.getItem("educafitUnlocked")||0);xp=Number(localStorage.getItem("educafitXP")||0)}catch(e){}
+const $=id=>document.getElementById(id);
+function show(id){["home","map","game","result"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
+function updateStats(){$("xp").textContent=xp;$("lives").textContent=lives;$("streak").textContent=streak}
+function renderMap(){$("lessons").innerHTML="";lessons.forEach((l,i)=>{let b=document.createElement("button");b.className="lesson"+(i>unlocked?" locked":"");b.disabled=i>unlocked;b.innerHTML=`<span class="emoji">${l.emoji}</span><span><strong>Fase ${i+1}: ${l.name}</strong><small>${i<unlocked?"✅ Concluída":i===unlocked?"🔓 Disponível":"🔒 Bloqueada"} · 10 perguntas difíceis</small></span>`;b.onclick=()=>startLesson(i,false);$("lessons").appendChild(b)})}
+function startLesson(i,isFriend){lessonStartedAt=Date.now();lessonIndex=i;friendMode=isFriend;player=1;players=[0,0];qIndex=0;score=0;lives=6;streak=0;show("game");loadQuestion()}
+function loadQuestion(){clearInterval(timerId);answered=false;timeLeft=20;const l=lessons[lessonIndex],q=l.qs[qIndex];$("lessonName").textContent=(friendMode?`Jogador ${player} · `:"")+`Fase ${lessonIndex+1}: ${l.name}`;$("qnum").textContent=qIndex+1;$("qtotal").textContent=l.qs.length;$("question").textContent=q[0];$("timer").textContent=timeLeft;$("bar").style.width=(qIndex/l.qs.length*100)+"%";$("feedback").className="feedback hidden";$("feedback").textContent="";$("continue").disabled=true;$("continue").textContent="CONTINUAR ➜";document.querySelectorAll(".choice").forEach(b=>{b.disabled=false;b.className="choice"});updateStats();timerId=setInterval(()=>{timeLeft--;$("timer").textContent=timeLeft;if(timeLeft<=5&&timeLeft>0)soundTick();if(timeLeft<=0){clearInterval(timerId);answer(null)}},1000)}
+function answer(value){if(answered)return;answered=true;clearInterval(timerId);const q=lessons[lessonIndex].qs[qIndex],ok=value===q[1];document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;const v=b.dataset.answer==="true";if(v===q[1])b.classList.add("correct");else if(value===v&&!ok)b.classList.add("wrong")});const fb=$("feedback");fb.classList.remove("hidden");if(ok){soundCorrect();score+=10;xp+=10;streak++;fb.className="feedback good";fb.textContent="🎉 Correto! "+q[2]}else{soundWrong();lives--;streak=0;fb.className="feedback bad";fb.textContent=(value===null?"⏰ O tempo acabou! ":"❌ Não foi dessa vez. ")+q[2]}if(friendMode&&ok)players[player-1]+=10;updateStats();try{localStorage.setItem("educafitXP",xp)}catch(e){}$("continue").textContent=lives<=0?"FIM DE JOGO":(qIndex===lessons[lessonIndex].qs.length-1?"VER RESULTADO ➜":"CONTINUAR ➜");$("continue").disabled=false}
+function next(){if(!answered)return;if(lives<=0){finish(true);return}if(qIndex<lessons[lessonIndex].qs.length-1){qIndex++;loadQuestion()}else if(friendMode&&player===1){player=2;qIndex=0;score=0;lives=6;streak=0;loadQuestion()}else finish(false)}
+function finish(gameOver){
+clearInterval(timerId);
+if(gameOver)soundLose();else soundWin();
+show("result");$("bar").style.width="100%";
+if(!gameOver&&!friendMode){unlocked=Math.max(unlocked,Math.min(lessonIndex+1,lessons.length-1));try{localStorage.setItem("educafitUnlocked",unlocked)}catch(e){}}
+$("resultEmoji").textContent=gameOver?"💔":(friendMode?"👫":"🏆");
+$("resultTitle").textContent=gameOver?"Suas vidas acabaram!":(friendMode?"Partida concluída!":"Fase concluída!");
+$("resultText").textContent=gameOver?`Você fez ${score} pontos nesta tentativa. Respire e tente novamente!`:friendMode?`Jogador 1: ${players[0]} pontos · Jogador 2: ${players[1]} pontos.`:`Você fez ${score} pontos! ${lessonIndex<lessons.length-1?"A próxima fase foi desbloqueada.":"Você completou todas as fases!"}`;
+const stats=$("phaseStats"),recordMessage=$("recordMessage");
+if(stats){
+ const elapsed=Math.max(0,Math.floor((Date.now()-lessonStartedAt)/1000));
+ const fmt=t=>String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0");
+ let best=score,oldBest=0,isNew=false;
+ try{
+  const key="educafitRecordPhase"+lessonIndex;
+  oldBest=Number(localStorage.getItem(key)||0);
+  if(!gameOver&&!friendMode&&score>oldBest){localStorage.setItem(key,String(score));isNew=true;}
+  best=Math.max(oldBest,(!gameOver&&!friendMode)?score:0);
+ }catch(e){}
+ $("phasePoints").textContent=String(score);
+ $("phaseRecord").textContent=String(best);
+ $("phaseTime").textContent=fmt(elapsed);
+ $("phaseXP").textContent=String(xp);
+ stats.style.display="";
+ if(recordMessage)recordMessage.textContent=isNew?"🎉 NOVO RECORDE! Você superou sua melhor pontuação!":(!gameOver&&!friendMode?"Muito bem! Continue tentando superar seu recorde.":"");
+ if(gameOver){stats.style.opacity=".7";if(recordMessage)recordMessage.textContent="Você pode tentar novamente e melhorar sua pontuação!";}
+}else if(recordMessage){recordMessage.textContent="";}
+$("resultAgain").textContent=gameOver?"Tentar novamente":"Jogar outra fase";
+}
+$("soundToggle").onclick=()=>{soundEnabled=!soundEnabled;$("soundToggle").textContent=soundEnabled?"🔊 Som":"🔇 Som";$("soundToggle").setAttribute("aria-pressed",String(soundEnabled));if(soundEnabled){soundCorrect()}};document.querySelectorAll("button").forEach(b=>{if(b.id!=="soundToggle")b.addEventListener("click",()=>{if(soundEnabled&&b.dataset.answer===undefined)soundClick()})});$("play").onclick=()=>{renderMap();show("map")};$("phasesBtn").onclick=()=>{renderMap();show("map")};$("friend").onclick=()=>startLesson(0,true);$("backHome").onclick=()=>show("home");$("continue").onclick=next;$("resultMap").onclick=()=>{renderMap();show("map")};$("resultAgain").onclick=()=>{if(friendMode)startLesson(lessonIndex,true);else startLesson(lessonIndex,false)};document.querySelectorAll(".choice").forEach(b=>b.onclick=()=>answer(b.dataset.answer==="true"));
+function showExtra(title,content){$("extrasTitle").textContent=title;$("extrasContent").innerHTML=content;show("extras")}
+$("rankingBtn").onclick=()=>{let best=0;try{best=Number(localStorage.getItem("educafitBest")||0)}catch(e){}showExtra("🏅 Ranking",`<div class="feedback"><strong>1º • Você</strong><p>⭐ ${xp} XP acumulados</p><small>Recorde da fase: ${best} pontos</small></div><p class="muted small">Este ranking é local neste aparelho. Para um ranking online entre vários jogadores, é necessário conectar um serviço com banco de dados.</p>`)};
+$("profileBtn").onclick=()=>{let name="Jogador";try{name=localStorage.getItem("educafitPlayerName")||"Jogador"}catch(e){}showExtra("👤 Perfil do jogador",`<label for="playerNameInput">Nome do jogador</label><input id="playerNameInput" value="${name.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}" maxlength="24" style="width:100%;padding:14px;margin:10px 0;background:#0c1020;color:white;border:1px solid #46557e;border-radius:12px"><button class="primary" id="saveProfile">Salvar perfil</button><p class="muted small">O perfil fica salvo neste aparelho.</p>`);$("saveProfile").onclick=()=>{const n=$("playerNameInput").value.trim()||"Jogador";try{localStorage.setItem("educafitPlayerName",n)}catch(e){}showExtra("Perfil salvo",`<p>Pronto, ${n.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}! Seu nome foi salvo neste aparelho.</p>`)}};$("extrasBack").onclick=()=>show("home");
+updateStats();
+
+// Perfil local editável: apelido + foto escolhida pelo usuário.
+(function setupEditableProfile(){
+  const byId = id => document.getElementById(id);
+  const overlay = byId("profileOverlay");
+  if (!overlay) return;
+  let photoData = "";
+  try {
+    const saved = JSON.parse(localStorage.getItem("educafitProfile") || "{}");
+    photoData = saved.photo || "";
+    const nick = (saved.nickname || "Jogador").trim() || "Jogador";
+    byId("profileNickname").value = nick;
+    paintProfile(nick, photoData);
+  } catch (e) { paintProfile("Jogador", ""); }
+
+  function avatarMarkup(photo){
+    return photo ? '<img src="' + photo + '" alt="Foto de perfil">' : "👤";
+  }
+  function paintProfile(nick, photo){
+    const safeNick = (nick || "Jogador").trim().slice(0,20) || "Jogador";
+    byId("headerNickname").textContent = safeNick;
+    byId("headerAvatar").innerHTML = avatarMarkup(photo);
+    byId("profilePreviewName").textContent = safeNick;
+    byId("profilePreviewAvatar").innerHTML = avatarMarkup(photo);
+    const homeName = byId("homeNickname");
+    const homeAvatar = byId("homeAvatar");
+    if (homeName) homeName.textContent = safeNick;
+    if (homeAvatar) homeAvatar.innerHTML = avatarMarkup(photo);
+  }
+  function openModal(){
+    byId("profileNickname").value = byId("headerNickname").textContent || "Jogador";
+    overlay.classList.remove("hidden");
+    byId("profileNickname").focus();
+  }
+  function closeModal(){ overlay.classList.add("hidden"); }
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && !overlay.classList.contains("hidden")) closeModal();
+  });
+  const profileButton = byId("profileOpen");
+  if (profileButton) {
+    profileButton.addEventListener("click", openModal);
+    profileButton.addEventListener("pointerup", function(e) {
+      // Mobile browsers sometimes miss click after tapping a nested avatar.
+      if (e.pointerType === "touch") { e.preventDefault(); openModal(); }
+    });
+  }
+  byId("profileCancel").addEventListener("click", closeModal);
+  overlay.addEventListener("click", e => { if (e.target === overlay) closeModal(); });
+  byId("profileNickname").addEventListener("input", () => {
+    byId("profilePreviewName").textContent = byId("profileNickname").value.trim().slice(0,20) || "Jogador";
+  });
+  byId("profilePhoto").addEventListener("change", e => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) { alert("Escolha um arquivo de imagem."); e.target.value = ""; return; }
+    if (file.size > 4 * 1024 * 1024) { alert("A foto precisa ter até 4 MB. Escolha uma imagem menor."); e.target.value = ""; return; }
+    const reader = new FileReader();
+    reader.onload = () => {
+      photoData = String(reader.result || "");
+      byId("profilePreviewAvatar").innerHTML = avatarMarkup(photoData);
+    };
+    reader.readAsDataURL(file);
+  });
+  byId("profileSave").addEventListener("click", () => {
+    const nickname = byId("profileNickname").value.trim().slice(0,20) || "Jogador";
+    try {
+      localStorage.setItem("educafitProfile", JSON.stringify({nickname, photo: photoData}));
+    } catch (e) {
+      alert("Não foi possível salvar a foto. Tente uma imagem menor ou libere espaço no navegador.");
+      return;
+    }
+    paintProfile(nickname, photoData);
+    closeModal();
+  });
+})();
+
+
+// Botão Sair: interrompe a partida atual e volta à tela inicial.
+(function setupExitButton(){
+  const btn = document.getElementById("exitGame");
+  if (!btn) return;
+  btn.addEventListener("click", function(){
+    const game = document.getElementById("game");
+    const inGame = game && !game.classList.contains("hidden");
+    if (inGame && !window.confirm("Quer sair da partida e voltar ao início? Seu progresso desta fase pode não ser concluído.")) return;
+    if (typeof timerId !== "undefined" && timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+    if (typeof show === "function") show("home");
+  });
+})();
+
+
+// Carrossel automático: troca entre imagens de esportes a cada 3,5 segundos.
+(function setupSportsCarousel(){
+  const frame=document.querySelector(".sport-carousel");
+  if(!frame) return;
+  const slides=Array.from(frame.querySelectorAll(".sport-slide"));
+  const dots=Array.from(frame.querySelectorAll(".sport-dots span"));
+  const caption=document.getElementById("sportCaption");
+  let current=0;
+  function showSlide(index){
+    slides.forEach((slide,i)=>slide.classList.toggle("active",i===index));
+    dots.forEach((dot,i)=>dot.classList.toggle("active",i===index));
+    if(caption) caption.textContent=slides[index].dataset.caption || "EDUCAFIT • ESPORTES";
+    current=index;
+  }
+  // Se uma imagem remota falhar, mantém a moldura e passa para as próximas.
+  slides.forEach(slide=>{
+    const img=slide.querySelector("img");
+    img.addEventListener("error",()=>{img.style.display="none";slide.style.background="radial-gradient(ellipse at center,#176bb8,#071225 75%)";});
+  });
+  showSlide(0);
+  window.setInterval(()=>showSlide((current+1)%slides.length),3500);
+})();
+
+</script>
+</body></html>
