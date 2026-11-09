@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conhecimento em Jogo · Coletânea de jogos do 6º ano</title>
+<meta name="description" content="Jogos educativos de verdadeiro ou falso criados por estudantes do 6º ano do Sesc Porto Seguro – Bahia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,600&family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --navy:#12304A; --navy-2:#0C2236; --orange:#F08A1C; --orange-ink:#B4530A; --red:#D9352E; --red-ink:#B42A23;
+  --gold:#F2B33D; --cream:#EDE3C4; --paper:#FBF8F1; --white:#FFFFFF; --muted:#5B7186; --line:#DCE3EA;
+  --serif:'Fraunces',Georgia,serif; --sans:'Nunito Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);background:var(--paper);color:var(--navy)}
+a{color:var(--navy)}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+
+.band{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));height:26px}
+.band i{display:block;position:relative;overflow:hidden}
+.band i:nth-child(6n+1){background:var(--navy)}
+.band i:nth-child(6n+2){background:var(--orange)}
+.band i:nth-child(6n+3){background:var(--cream)}
+.band i:nth-child(6n+4){background:var(--red)}
+.band i:nth-child(6n+5){background:var(--gold)}
+.band i:nth-child(6n+6){background:var(--navy)}
+.band i:nth-child(odd)::after{content:"";position:absolute;inset:0;background:var(--gold);clip-path:polygon(0 0,100% 0,0 100%)}
+.band i:nth-child(4n+2)::after{content:"";position:absolute;inset:0;background:var(--cream);border-radius:0 100% 0 0;clip-path:none}
+.band i:nth-child(5n)::after{background:var(--navy)}
+
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0}
+header.top img{height:44px;width:auto;display:block}
+.top-txt{text-align:right;font-size:11.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;line-height:1.7}
+.top-txt span{display:block;color:var(--orange-ink)}
+
+/* Abertura */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:32px;align-items:center;padding:26px 0 40px}
+.kicker{font-size:12px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--orange-ink)}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(46px,8vw,82px);line-height:.95;letter-spacing:-.02em;margin:12px 0 18px}
+h1 em{display:block;font-style:italic;font-weight:400;color:#C2580A}
+.lead{font-family:var(--serif);font-size:clamp(18px,2.2vw,21px);line-height:1.45;color:#3A5670;margin:0 0 16px;max-width:520px}
+.hero p.txt{line-height:1.65;color:var(--navy);max-width:520px;margin:0 0 22px}
+.cta{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:var(--white);text-decoration:none;font-weight:900;padding:15px 22px;border-radius:14px}
+.cta:hover{background:var(--navy-2)}
+
+.deck{position:relative;height:360px}
+.deck .c{position:absolute;left:50%;top:20px;width:190px;height:262px;margin-left:-95px;border-radius:18px;border:3px solid var(--white);box-shadow:0 10px 24px rgba(18,48,74,.18);transform-origin:50% 120%}
+.deck .c1{background:var(--navy);transform:rotate(-24deg)}
+.deck .c2{background:var(--orange);transform:rotate(-12deg)}
+.deck .c3{background:var(--red);transform:rotate(12deg)}
+.deck .c4{background:var(--gold);transform:rotate(24deg)}
+.deck .front{position:absolute;left:50%;top:44px;width:220px;height:292px;margin-left:-110px;background:var(--white);border:2px solid var(--navy);border-radius:22px;box-shadow:0 22px 44px rgba(18,48,74,.24);padding:18px;display:flex;flex-direction:column;justify-content:space-between;transform:rotate(5deg)}
+.front .pill{align-self:flex-start;padding:5px 11px;border-radius:999px;background:#FDEBD3;color:#9A4508;font-size:10.5px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.front .q{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.12}
+.front .btns{display:flex;justify-content:space-between}
+.front .btns span{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.front .no{background:var(--red)}.front .yes{background:var(--orange)}
+
+/* Como jogar */
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 46px}
+.step{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:20px}
+.step b{display:flex;align-items:center;justify-content:center;width:38px;height:38px;font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:12px}
+.step:nth-child(1) b{background:var(--navy);color:var(--white)}
+.step:nth-child(2) b{background:var(--orange);color:var(--navy)}
+.step:nth-child(3) b{background:var(--red);color:var(--white)}
+.step h3{font-family:var(--serif);font-weight:600;font-size:19px;margin:0 0 6px}
+.step p{margin:0;color:#3A5670;line-height:1.55;font-size:15px}
+
+/* Coletânea */
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4vw,40px);line-height:1.05;margin:6px 0 0}
+.count{color:var(--muted);font-weight:700}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.filters button{border:1.5px solid var(--line);background:var(--white);color:var(--navy);border-radius:999px;padding:9px 14px;font-size:13.5px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.filters button .sw{width:10px;height:10px;display:inline-block}
+.filters button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.filters button .n{font-size:11.5px;opacity:.7}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-bottom:56px}
+.game{position:relative;display:flex;flex-direction:column;background:var(--white);border:1.5px solid var(--line);border-radius:22px;overflow:hidden;text-decoration:none;color:var(--navy);transition:transform .15s,box-shadow .15s,border-color .15s}
+.game:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(18,48,74,.14);border-color:var(--navy)}
+.game .head{height:92px;position:relative;display:flex;align-items:flex-end;padding:14px 16px}
+.game .head::after{content:"";position:absolute;right:0;top:0;width:92px;height:92px;background:rgba(255,255,255,.22);clip-path:polygon(100% 0,100% 100%,0 0)}
+.game .disc{position:relative;z-index:1;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:var(--white);color:var(--navy)}
+.game .vf{position:absolute;left:16px;top:12px;font-family:var(--serif);font-weight:600;font-size:18px}
+.game .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.game h3{font-family:var(--serif);font-weight:600;font-size:22px;line-height:1.15;margin:0}
+.game p{margin:0;color:#3A5670;line-height:1.5;font-size:14.5px}
+.game .meta{margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);font-size:13px}
+.game .meta b{font-weight:800}
+.game .play{font-weight:900;color:var(--orange-ink);white-space:nowrap}
+.empty{grid-column:1/-1;background:var(--white);border:1.5px dashed var(--line);border-radius:22px;padding:28px;text-align:center;color:var(--muted);line-height:1.6}
+
+/* Sobre */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;background:var(--navy);color:var(--white);border-radius:28px;padding:34px;margin-bottom:46px}
+.about h2{color:var(--white)}
+.about p{line-height:1.65;color:#DCE3EA;margin:12px 0 0}
+.principles{display:grid;gap:10px;align-content:center}
+.principles div{background:#ffffff10;border:1px solid #ffffff26;border-radius:16px;padding:14px 16px}
+.principles b{display:block;font-family:var(--serif);font-weight:600;font-size:19px;color:var(--white)}
+.principles span{font-size:14px;color:#C9D3DD}
+
+footer{border-top:1px solid var(--line);padding:22px 0 30px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);line-height:1.6}
+footer b{color:var(--navy)}
+
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr;padding-top:10px}
+  .deck{height:320px;order:-1}
+  .how{grid-template-columns:1fr}
+  .about{grid-template-columns:1fr;padding:26px 22px}
+  header.top img{height:36px}
+  .top-txt{font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="wrap">
+  <header class="top">
+    <img src="assets/logo-sesc.png" alt="Sesc Fecomércio Senac">
+    <div class="top-txt">Sesc Porto Seguro – Bahia<span>Inclusão Digital · 6º ano</span></div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="kicker">Coletânea de jogos educativos</div>
+      <h1>Conhecimento <em>em Jogo</em></h1>
+      <p class="lead">Aprender, criar e compartilhar saberes por meio da gamificação e da Inteligência Artificial</p>
+      <p class="txt">Jogos de verdadeiro ou falso criados por estudantes do 6º ano para quem está chegando à mesma etapa. Leia a afirmação, deslize o cartão e descubra na hora se acertou, com uma explicação para aprender ainda mais.</p>
+      <a class="cta" href="#jogos">Escolher um jogo →</a>
+    </div>
+    <div class="deck" aria-hidden="true">
+      <div class="c c1"></div><div class="c c2"></div><div class="c c3"></div><div class="c c4"></div>
+      <div class="front">
+        <span class="pill">Ciências</span>
+        <span class="q">O Sol é uma estrela.</span>
+        <div class="btns">
+          <span class="no"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+          <span class="yes"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#12304A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how" aria-label="Como jogar">
+    <div class="step"><b>1</b><h3>Leia a afirmação</h3><p>Cada cartão traz uma frase sobre um conteúdo do 6º ano.</p></div>
+    <div class="step"><b>2</b><h3>Decida e deslize</h3><p>Arraste o cartão ou toque nos botões para dizer se é verdadeira ou falsa.</p></div>
+    <div class="step"><b>3</b><h3>Aprenda com a resposta</h3><p>Na hora, você vê se acertou e lê uma explicação sobre o assunto.</p></div>
+  </section>
+
+  <section id="jogos">
+    <div class="sec-head">
+      <div><div class="kicker">Escolha por disciplina</div><h2>Os jogos</h2></div>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por disciplina"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="about">
+    <div>
+      <div class="kicker" style="color:var(--gold)">Sobre o projeto</div>
+      <h2>Uma turma ensinando a outra</h2>
+      <p>Para criar cada jogo, os estudantes pesquisaram os conteúdos, verificaram fontes confiáveis, escreveram as afirmações e as explicações e usaram a Inteligência Artificial como parceira, aprendendo também a questionar e validar o que ela produz. Depois, programaram os jogos em HTML.</p>
+      <p>Projeto de Inclusão Digital conduzido pelo professor Alejandro C. Melgaço no Sesc Porto Seguro – Bahia.</p>
+    </div>
+    <div class="principles">
+      <div><b>Recuperação ativa</b><span>Buscar a resposta na memória fortalece o que se aprendeu.</span></div>
+      <div><b>Aprendizagem ativa</b><span>Quem cria o jogo pesquisa, decide e explica.</span></div>
+      <div><b>Feedback imediato</b><span>Cada resposta vem acompanhada de uma explicação.</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>Conhecimento em Jogo</b> · Inclusão Digital · Sesc Porto Seguro – Bahia</div>
+    <div>Direção Escolar: Polliana Almeida da Cruz Silva · Supervisão Pedagógica: Euzimar Dutra de Andrade e Tatiana Longo Monteiro</div>
+  </footer>
+</div>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<script>
+// Para adicionar um jogo: coloque o arquivo na pasta "jogos" e acrescente um item nesta lista.
+const jogos = [
+  {
+    titulo: "Da Guerra Fria à Internet",
+    disciplina: "História",
+    autores: "Sophia S.",
+    descricao: "Sputnik, corrida espacial, ARPA e ARPANET: como a disputa da Guerra Fria ajudou a criar a internet.",
+    perguntas: 50,
+    arquivo: "jogos/historia-guerra-fria-internet.html"
+  }
+];
+
+const disciplinas = [
+  { nome: "Português", cor: "#12304A", texto: "#FFFFFF" },
+  { nome: "Matemática", cor: "#F08A1C", texto: "#12304A" },
+  { nome: "Ciências", cor: "#D9352E", texto: "#FFFFFF" },
+  { nome: "História", cor: "#F2B33D", texto: "#12304A" },
+  { nome: "Geografia", cor: "#EDE3C4", texto: "#12304A" },
+  { nome: "Educação Física", cor: "#12304A", texto: "#FFFFFF" },
+  { nome: "Inglês", cor: "#D9352E", texto: "#FFFFFF" },
+  { nome: "Inclusão Digital", cor: "#F08A1C", texto: "#12304A" }
+];
+
+let filtro = "Todas";
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const corDe = nome => disciplinas.find(d => d.nome === nome) || disciplinas[0];
+
+function desenharFiltros() {
+  const box = document.getElementById("filters");
+  box.replaceChildren();
+  const opcoes = [{ nome: "Todas" }, ...disciplinas];
+  for (const d of opcoes) {
+    const b = el("button");
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(filtro === d.nome));
+    if (d.cor) { const sw = el("span", "sw"); sw.style.background = d.cor; b.append(sw); }
+    b.append(d.nome);
+    const n = d.nome === "Todas" ? jogos.length : jogos.filter(j => j.disciplina === d.nome).length;
+    b.append(el("span", "n", `(${n})`));
+    b.addEventListener("click", () => { filtro = d.nome; desenharFiltros(); desenharJogos(); });
+    box.append(b);
+  }
+}
+
+function desenharJogos() {
+  const grid = document.getElementById("grid");
+  grid.replaceChildren();
+  const lista = filtro === "Todas" ? jogos : jogos.filter(j => j.disciplina === filtro);
+  document.getElementById("count").textContent = `${jogos.length} ${jogos.length === 1 ? "jogo publicado" : "jogos publicados"}`;
+  if (!lista.length) {
+    grid.append(el("div", "empty", `Os jogos de ${filtro} estão chegando. Volte em breve!`));
+    return;
+  }
+  for (const j of lista) {
+    const c = corDe(j.disciplina);
+    const a = el("a", "game");
+    a.href = j.arquivo;
+    const head = el("div", "head");
+    head.style.background = c.cor;
+    const vf = el("span", "vf", "V");
+    vf.style.color = c.texto;
+    head.append(vf, el("span", "disc", j.disciplina));
+    const body = el("div", "body");
+    body.append(el("h3", null, j.titulo), el("p", null, j.descricao));
+    const meta = el("div", "meta");
+    const quem = el("span");
+    quem.append("Por ", el("b", null, j.autores));
+    meta.append(quem, el("span", "play", `${j.perguntas} cartas · Jogar →`));
+    body.append(meta);
+    a.append(head, body);
+    grid.append(a);
+  }
+}
+
+desenharFiltros();
+desenharJogos();
+</script>
+</body>
+</html>
