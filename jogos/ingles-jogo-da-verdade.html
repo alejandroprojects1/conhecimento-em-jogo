@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#12304A">
+<title>Jogo da Verdade Científico — Inglês</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,600&family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--navy:#12304A;--navy-2:#0C2236;--orange:#F08A1C;--orange-ink:#B4530A;--red:#D9352E;--red-ink:#B42A23;--gold:#F2B33D;--cream:#EDE3C4;--purple:#6B4FA0;--paper:#FBF8F1;--white:#FFFFFF;--muted:#5B7186;--line:#DCE3EA;--mist:#EEF3F7;--green:#F08A1C;--pink:#D9352E;--cyan:#B4530A;--text:#12304A;--serif:'Fraunces',Georgia,serif;--sans:'Nunito Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--paper);font-family:var(--sans);color:var(--navy)}
+button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.band{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));height:22px}
+.band i{display:block;position:relative;overflow:hidden}
+.band i:nth-child(6n+1){background:var(--navy)}.band i:nth-child(6n+2){background:var(--orange)}.band i:nth-child(6n+3){background:var(--cream)}.band i:nth-child(6n+4){background:var(--red)}.band i:nth-child(6n+5){background:var(--gold)}.band i:nth-child(6n+6){background:var(--navy)}
+.band i:nth-child(odd)::after{content:"";position:absolute;inset:0;background:var(--gold);clip-path:polygon(0 0,100% 0,0 100%)}
+.band i:nth-child(4n+2)::after{content:"";position:absolute;inset:0;background:var(--cream);border-radius:0 100% 0 0;clip-path:none}
+.band i:nth-child(5n)::after{background:var(--navy)}
+.app{width:min(720px,100%);margin:0 auto;padding:18px 16px 24px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{display:grid;grid-template-columns:repeat(2,9px);gap:4px;flex:none}.mark i{display:block;width:9px;height:9px}
+.brand b{font-family:var(--serif);font-weight:600;font-size:15px}.brand b em{font-style:italic;font-weight:400;color:var(--orange-ink)}
+.disc{padding:6px 12px;border-radius:999px;background:var(--purple);color:var(--white);font-size:10.5px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.tools{display:flex;align-items:center;gap:8px}
+.sound{border:1.5px solid var(--navy);background:var(--white);color:var(--navy);border-radius:999px;padding:8px 13px;font-size:13px;font-weight:800}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,30px);box-shadow:0 10px 30px rgba(18,48,74,.06);position:relative;overflow:hidden}
+.eyebrow{color:var(--orange-ink);font-size:11.5px;letter-spacing:.18em;font-weight:900;text-transform:uppercase}
+.intro{text-align:center;padding:30px 18px 28px}
+.orb{position:relative;width:120px;height:140px;margin:0 auto 22px}
+.orb .b1,.orb .b2,.orb .f{position:absolute;left:50%;top:6px;width:96px;height:128px;margin-left:-48px;border-radius:14px}
+.orb .b1{background:var(--gold);transform:rotate(-10deg)}.orb .b2{background:var(--purple);transform:rotate(8deg)}
+.orb .f{background:var(--white);border:2px solid var(--navy);box-shadow:0 12px 26px rgba(18,48,74,.2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-weight:600;font-size:34px;color:var(--purple)}
+.orb .f::before,.orb .f::after{position:absolute;font-family:var(--serif);font-style:normal;font-size:14px;color:var(--navy)}
+.orb .f::before{content:"V";left:8px;top:6px}.orb .f::after{content:"F";right:8px;bottom:6px;transform:rotate(180deg)}
+h1.title{font-family:var(--serif);font-weight:600;font-size:clamp(34px,7vw,52px);line-height:1;letter-spacing:-.01em;margin:10px 0 4px}
+h1.title em{font-style:italic;font-weight:400;color:#C2580A}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(24px,5vw,32px);line-height:1.1;margin:8px 0 14px;color:var(--navy)}
+.intro p{color:#3A5670;line-height:1.7;max-width:510px;margin:0 auto 22px}
+.author{font-size:13px!important;color:var(--muted)!important;margin:0 auto 18px!important}.author b{color:var(--navy)}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 0 24px}
+.chip{font-size:12.5px;font-weight:800;padding:8px 12px;border:1.5px solid var(--line);background:var(--paper);border-radius:99px;color:var(--navy)}
+.primary{border:0;border-radius:14px;padding:15px 24px;font-weight:900;color:var(--white);background:var(--navy);letter-spacing:.04em;transition:transform .2s,background .2s}
+.primary:hover{transform:translateY(-2px);background:var(--navy-2)}
+.secondary{border:1.5px solid var(--navy);border-radius:14px;background:var(--white);color:var(--navy);padding:13px 18px;font-weight:900}
+.game{display:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat{border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:12px 14px}
+.stat span{display:block;color:var(--muted);font-size:10.5px;font-weight:900;text-transform:uppercase;letter-spacing:.12em}
+.stat strong{font-family:var(--serif);font-weight:600;font-size:24px;display:block;margin-top:4px;color:var(--navy)}
+.hearts{color:var(--red)!important;letter-spacing:3px;font-size:19px!important;white-space:nowrap;font-family:var(--sans)!important}
+.progress-row{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;font-weight:800;margin:0 2px 8px}
+.progress{height:10px;background:var(--mist);border-radius:99px;overflow:hidden;margin-bottom:22px}
+.progress div{height:100%;width:0;background:var(--orange);border-radius:99px;transition:width .35s}
+.card-wrap{position:relative;min-height:300px;display:flex;align-items:stretch;padding:6px 4px 0}
+.card-wrap::before,.card-wrap::after{content:"";position:absolute;left:9%;right:9%;top:20px;bottom:6px;border-radius:24px}
+.card-wrap::before{background:var(--gold);transform:rotate(-3.5deg)}.card-wrap::after{background:var(--purple);transform:rotate(3deg)}
+.question-card{position:relative;z-index:1;border:2px solid var(--navy);border-radius:24px;background:var(--white);width:100%;min-height:300px;padding:30px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;touch-action:pan-y;user-select:none;cursor:grab;transition:transform .18s,border-color .2s,opacity .2s;box-shadow:0 18px 40px rgba(18,48,74,.18)}
+.question-card.dragging{transition:none;cursor:grabbing}
+.question-card .corner{position:absolute;left:16px;top:12px;font-family:var(--serif);font-weight:600;font-size:21px;line-height:1;color:var(--navy)}
+.question-card .corner.bottom{left:auto;top:auto;right:16px;bottom:12px;transform:rotate(180deg)}
+.q-number{display:inline-block;padding:6px 12px;border-radius:999px;background:#ECE6F5;color:#4E3784;font-size:11px;letter-spacing:.14em;font-weight:900;text-transform:uppercase;margin-bottom:18px}
+.statement{font-family:var(--serif);font-size:clamp(23px,5vw,31px);font-weight:600;line-height:1.25;max-width:560px;overflow-wrap:anywhere;color:var(--navy)}
+.hint{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:18px}
+.swipe-label{position:absolute;bottom:22px;padding:5px 12px;border:3px solid;border-radius:8px;background:var(--white);font-size:15px;font-weight:900;letter-spacing:.14em;opacity:0;transition:opacity .1s}
+.swipe-label.true{right:46px;color:var(--orange-ink);border-color:var(--orange-ink);transform:rotate(-10deg)}
+.swipe-label.false{left:46px;color:var(--red-ink);border-color:var(--red-ink);transform:rotate(10deg)}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.answer-btn{border:0;border-radius:16px;padding:14px 12px;font-weight:900;letter-spacing:.06em;transition:transform .15s,filter .15s}
+.answer-btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
+.answer-btn.false{color:var(--white);background:var(--red)}
+.answer-btn.true{color:var(--navy);background:var(--orange)}
+.answer-btn span{display:block;font-size:11px;font-weight:700;letter-spacing:0;opacity:.85;margin-top:3px}
+.swipe-help{text-align:center;color:var(--muted);font-size:12px;margin:12px 0 0}
+.feedback{display:none;margin-top:18px;padding:16px 18px;border-radius:16px;border:1.5px solid var(--line);background:var(--white);animation:rise .25s ease}
+.feedback.good{background:#FFF4E5;border-color:#F7C98F}.feedback.good h3{color:#9A4508}
+.feedback.bad{background:#FDEEEC;border-color:#F2B7B2}.feedback.bad h3{color:var(--red-ink)}
+.feedback h3{margin:0 0 6px;font-size:17px;font-weight:900}
+.feedback p{margin:0;color:var(--navy);line-height:1.6;font-size:15px}
+.feedback .next{margin-top:14px;width:100%}
+.result{display:none;text-align:center;padding:28px 18px 24px}
+.result .result-icon{font-size:52px}
+.result h2{margin-top:10px;font-size:clamp(28px,6vw,38px)}
+.result p{color:#3A5670;line-height:1.7}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.result-grid .stat{text-align:center;border-top-width:5px}
+.result-grid .stat:nth-child(1){border-top-color:var(--gold)}.result-grid .stat:nth-child(2){border-top-color:var(--orange)}.result-grid .stat:nth-child(3){border-top-color:var(--navy)}
+.result-grid strong{font-size:28px}
+.result-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.record-note{color:var(--orange-ink)!important;font-weight:800;font-size:14px}
+.footer{text-align:center;color:var(--muted);font-size:12px;line-height:1.6;margin-top:18px}
+.footer b{color:var(--navy)}.footer a{font-weight:800;color:var(--orange-ink)}
+.confetti{position:fixed;top:-12px;width:8px;height:13px;z-index:20;pointer-events:none;animation:fall 2.5s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.2}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){.app{padding:14px 12px 20px}.stat{padding:10px}.stat strong{font-size:20px}.hearts{font-size:15px!important;letter-spacing:1px}.question-card{min-height:290px;padding:26px 16px}.statement{font-size:24px}.controls{gap:8px}.answer-btn{padding:13px 7px}.result-grid{gap:6px}.result-grid .stat{padding:10px 5px}.brand b{font-size:14px}.disc{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<main class="app">
+<header class="topbar">
+  <div class="brand"><span class="mark" aria-hidden="true"><i style="background:#12304A"></i><i style="background:#F08A1C"></i><i style="background:#D9352E"></i><i style="background:#F2B33D"></i></span><b>Conhecimento <em>em Jogo</em></b></div>
+  <div class="tools"><span class="disc">Inglês</span><button class="sound" id="soundBtn" aria-label="Ativar ou desativar som">🔊 Som ligado</button></div>
+</header>
+<section class="panel intro" id="intro">
+  <div class="orb" aria-hidden="true"><div class="b1"></div><div class="b2"></div><div class="f">Hi!</div></div><div class="eyebrow">Laboratório de inglês · 6º ano</div>
+  <h1 class="title">Jogo da <em>Verdade</em></h1>
+  <h2>Verdadeiro ou falso?</h2>
+  <p>Leia cada afirmação sobre inglês e decida se ela está certa ou errada. Aprenda sobre o verbo <b>to be</b>, pronomes, contrações e vocabulário enquanto joga!</p>
+  <div class="chips"><span class="chip">♥ 3 vidas</span><span class="chip">+100 por acerto</span><span class="chip">✦ Bônus de sequência</span><span class="chip">60 afirmações</span></div>
+  <p class="author">Criado por <b>Levi M.</b> · 6º ano</p>
+  <button class="primary" id="startBtn">INICIAR DESAFIO&nbsp; →</button>
+</section>
+<section class="panel game" id="game">
+  <div class="stats">
+    <div class="stat"><span>Pontuação</span><strong id="score">0</strong></div>
+    <div class="stat"><span>Vidas</span><strong class="hearts" id="lives">♥ ♥ ♥</strong></div>
+    <div class="stat"><span>Sequência</span><strong id="streak">0 🔥</strong></div>
+  </div>
+  <div class="progress-row"><span id="counter">PERGUNTA 1 DE 60</span><span id="percent">0%</span></div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="card-wrap">
+    <article class="question-card" id="questionCard" aria-live="polite">
+      <span class="corner" aria-hidden="true">V</span><div class="swipe-label false" id="falseLabel">FALSO</div><div class="swipe-label true" id="trueLabel">VERDADEIRO</div>
+      <div class="q-number" id="qNumber">AFIRMAÇÃO 01</div><div class="statement" id="statement"></div><div class="hint">Analise com atenção antes de responder.</div><span class="corner bottom" aria-hidden="true">F</span>
+    </article>
+  </div>
+  <div class="controls" id="controls">
+    <button class="answer-btn false" id="falseBtn">← FALSO <span>Arraste para a esquerda</span></button>
+    <button class="answer-btn true" id="trueBtn">VERDADEIRO → <span>Arraste para a direita</span></button>
+  </div>
+  <div class="swipe-help">Dica: você também pode arrastar o cartão com o dedo ou o mouse.</div>
+  <div class="feedback" id="feedback" role="status"><h3 id="feedbackTitle"></h3><p id="feedbackText"></p><button class="primary next" id="nextBtn">PRÓXIMA AFIRMAÇÃO →</button></div>
+</section>
+<section class="panel result" id="result">
+  <div class="result-icon" id="resultIcon">🏆</div><div class="eyebrow">Desafio finalizado</div><h2 id="resultTitle">Mandou bem!</h2><p id="resultMessage"></p>
+  <div class="result-grid">
+    <div class="stat"><span>Pontos</span><strong id="finalScore">0</strong></div>
+    <div class="stat"><span>Acertos</span><strong id="finalCorrect">0/60</strong></div>
+    <div class="stat"><span>Precisão</span><strong id="finalPercent">0%</strong></div>
+  </div>
+  <p class="record-note" id="recordNote"></p>
+  <div class="result-actions"><button class="primary" id="againBtn">JOGAR NOVAMENTE ↻</button><button class="secondary" id="homeBtn">VOLTAR AO INÍCIO</button></div>
+</section>
+<div class="footer">FEITO PARA APRENDER · CURIOSIDADE É PODER ✦<br><b>Conhecimento em Jogo</b> · Inclusão Digital · Projeto de Alejandro C. Melgaço<br><a href="../index.html">← Ver todos os jogos da coletânea</a></div>
+</main>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<script>
+"use strict";
+const questions = [
+{t:"“You” significa “você” ou “vocês”.",a:true,e:"Correto! “You” pode ser usado para falar com uma pessoa ou com várias pessoas."},
+{t:"“I am” pode ser abreviado para “I'm”.",a:true,e:"Isso mesmo! “I'm” é a contração de “I am” e significa “eu sou” ou “eu estou”."},
+{t:"“She is” pode ser escrito como “She's”.",a:true,e:"Correto! “She's” é a contração de “She is”. Dependendo da frase, significa “ela é” ou “ela está”."},
+{t:"“He are happy” é uma frase correta em inglês.",a:false,e:"O correto é “He is happy” (Ele está feliz). Com “he”, usamos “is”, não “are”."},
+{t:"O verbo “to be” pode significar “ser” ou “estar”.",a:true,e:"Exatamente! O sentido depende do contexto: “I am a student” = eu sou estudante; “I am tired” = eu estou cansado."},
+{t:"“They are” pode virar “They're”.",a:true,e:"Sim! “They're” é a contração de “They are”, que significa “eles/elas são” ou “estão”."},
+{t:"“I is a student” significa “Eu sou estudante” e está correto.",a:false,e:"A frase correta é “I am a student”. Com o pronome “I”, usamos “am”."},
+{t:"“We” significa “nós”.",a:true,e:"Correto! Exemplo: “We are friends” = nós somos amigos."},
+{t:"“It” é usado frequentemente para coisas, objetos ou animais quando não especificamos o sexo.",a:true,e:"Isso mesmo! “It” pode se referir a uma coisa ou animal: “It is a ball” = é uma bola."},
+{t:"“You are” pode ser abreviado para “You're”.",a:true,e:"Correto! “You're welcome” significa “De nada”."},
+{t:"“Am”, “is” e “are” são formas do verbo “to be” no presente.",a:true,e:"Muito bem! Usamos “am” com I, “is” com he/she/it e “are” com you/we/they."},
+{t:"“She are my friend” está correto.",a:false,e:"O correto é “She is my friend” (Ela é minha amiga). Com “she”, usamos “is”."},
+{t:"“He” significa “ela”.",a:false,e:"“He” significa “ele”. “She” significa “ela”."},
+{t:"“I'm not tired” significa “Eu não estou cansado”.",a:true,e:"Correto! Para negar, colocamos “not” depois do verbo: “I am not” ou “I'm not”."},
+{t:"“They isn't here” é a forma correta de dizer “Eles não estão aqui”.",a:false,e:"O correto é “They aren't here” ou “They are not here”. Com “they”, usamos “are”."},
+{t:"“Isn't” é uma contração de “is not”.",a:true,e:"Isso mesmo! Exemplo: “He isn't sad” = ele não está triste."},
+{t:"“Aren't” é uma contração de “are not”.",a:true,e:"Correto! “We aren't late” significa “Nós não estamos atrasados”."},
+{t:"A pergunta “Are you okay?” significa “Você está bem?”.",a:true,e:"Exatamente! Em perguntas com “to be”, o verbo geralmente vem antes do sujeito: “Are you...?”."},
+{t:"“Am I late?” significa “Estou atrasado?”.",a:true,e:"Sim! “Am I...?” é uma maneira de fazer uma pergunta sobre si mesmo."},
+{t:"“Is she your sister?” significa “Ela é sua irmã?”.",a:true,e:"Correto! “Is” vem antes de “she” para formar a pergunta."},
+{t:"“Good morning” significa “Boa noite”.",a:false,e:"“Good morning” significa “Bom dia”. “Good evening” é usado como cumprimento à noite."},
+{t:"“Goodbye” significa “Tchau” ou “Adeus”.",a:true,e:"Correto! É uma despedida comum em inglês."},
+{t:"“Please” pode significar “por favor”.",a:true,e:"Isso mesmo! Exemplo: “Please, help me” = por favor, me ajude."},
+{t:"“Thank you” significa “Desculpe”.",a:false,e:"“Thank you” significa “obrigado(a)”. “Sorry” significa “desculpe”."},
+{t:"“Book” significa “livro”.",a:true,e:"Correto! “Book” é um substantivo usado para falar de um livro."},
+{t:"“School” significa “escola”.",a:true,e:"Muito bem! “I am at school” significa “Eu estou na escola”."},
+{t:"“Teacher” significa “estudante”.",a:false,e:"“Teacher” significa “professor(a)”. “Student” significa “estudante”."},
+{t:"“Student” significa “estudante” ou “aluno(a)”.",a:true,e:"Correto! Exemplo: “She is a student” = ela é estudante."},
+{t:"“Friend” significa “inimigo”.",a:false,e:"“Friend” significa “amigo(a)”. “Enemy” é que significa “inimigo”."},
+{t:"“Happy” significa “feliz”.",a:true,e:"Isso mesmo! “I am happy” significa “Eu estou feliz”."},
+{t:"“Sad” significa “feliz”.",a:false,e:"“Sad” significa “triste”. “Happy” significa “feliz”."},
+{t:"“Big” significa “grande”.",a:true,e:"Correto! “A big house” significa “uma casa grande”."},
+{t:"“Small” significa “pequeno(a)”.",a:true,e:"Isso mesmo! “A small dog” = um cachorro pequeno."},
+{t:"“Blue” é a cor verde em inglês.",a:false,e:"“Blue” significa azul. Verde é “green”."},
+{t:"“Red” significa “vermelho”.",a:true,e:"Correto! “A red apple” significa “uma maçã vermelha”."},
+{t:"“Green” significa “verde”.",a:true,e:"Muito bem! É o nome da cor verde em inglês."},
+{t:"“One, two, three” significa “um, dois, três”.",a:true,e:"Correto! Esses são os números 1, 2 e 3 em inglês."},
+{t:"“Ten” significa o número 20.",a:false,e:"“Ten” é 10. O número 20 é “twenty”."},
+{t:"“Monday” significa “segunda-feira”.",a:true,e:"Isso mesmo! “Monday” é o primeiro dia da semana em muitos calendários usados em inglês."},
+{t:"“Sunday” significa “sábado”.",a:false,e:"“Sunday” significa domingo. Sábado é “Saturday”."},
+{t:"“My name is Ana” significa “Meu nome é Ana”.",a:true,e:"Correto! A expressão “My name is...” é usada para se apresentar."},
+{t:"“What is your name?” significa “Qual é o seu nome?”.",a:true,e:"Exatamente! É uma pergunta comum quando conhecemos alguém."},
+{t:"“How are you?” significa “Como você está?”.",a:true,e:"Correto! Uma resposta possível é “I'm fine” (Estou bem)."},
+{t:"“I'm fine” significa “Estou bem”.",a:true,e:"Isso mesmo! “I'm” é a contração de “I am”, e “fine” significa bem."},
+{t:"“Where” significa “quando”.",a:false,e:"“Where” significa “onde”. “When” significa “quando”."},
+{t:"“What” pode significar “o que” ou “qual”.",a:true,e:"Correto! Exemplo: “What is this?” = O que é isto?"},
+{t:"“Who” é usado para perguntar “quem?”.",a:true,e:"Muito bem! “Who is she?” significa “Quem é ela?”."},
+{t:"“This is my pencil” significa “Este é meu lápis”.",a:true,e:"Correto! “This” é usado para indicar algo ou alguém próximo."},
+{t:"“That” pode significar “aquele”, “aquela” ou “aquilo”.",a:true,e:"Isso mesmo! Geralmente aponta para algo mais distante."},
+{t:"“These” é usado para falar de uma única coisa distante.",a:false,e:"“These” é usado para coisas no plural que estão próximas. Para uma coisa distante, usamos “that”."},
+{t:"“Those are my books” significa “Aqueles são meus livros”.",a:true,e:"Correto! “Those” é plural de “that” e indica coisas mais distantes."},
+{t:"“There is” costuma ser usado para dizer que existe uma coisa ou pessoa.",a:true,e:"Isso mesmo! “There is a cat” = há um gato / existe um gato."},
+{t:"“There are two dogs” significa “Há dois cachorros”.",a:true,e:"Correto! “There are” é usado com substantivos no plural."},
+{t:"“There is two books” é a forma padrão correta.",a:false,e:"O padrão correto é “There are two books”, porque “books” está no plural."},
+{t:"“Can” pode indicar habilidade, como em “I can swim”.",a:true,e:"Correto! “I can swim” significa “Eu sei/consigo nadar”."},
+{t:"“I can't fly” significa “Eu consigo voar”.",a:false,e:"“Can't” é a forma curta de “cannot” e indica incapacidade: “Eu não consigo voar”."},
+{t:"“Cat” significa “gato” e “dog” significa “cachorro”.",a:true,e:"Muito bem! São dois nomes de animais bastante comuns em inglês."},
+{t:"“Mother” significa “pai”.",a:false,e:"“Mother” significa mãe. “Father” significa pai."},
+{t:"“Brother” significa “irmão”.",a:true,e:"Correto! “Sister” significa irmã."},
+{t:"“I'm 12 years old” significa “Eu tenho 12 anos”.",a:true,e:"Isso mesmo! Em inglês, a idade é expressa com o verbo “to be”: literalmente, “eu sou de 12 anos”."},
+{t:"Em inglês, para dizer a idade, a frase “I have 12 years” é a forma mais comum e padrão.",a:false,e:"O padrão é “I am 12 years old” ou “I'm 12”. Em inglês, usamos “to be” para falar da idade."}
+];
+const $=id=>document.getElementById(id);
+let deck=[], index=0, score=0, lives=3, streak=0, correct=0, soundOn=true, locked=false, newRecord=false;
+let audioCtx=null, pointerStart=null;
+const BEST_KEY="jogoVerdadeInglesRecordeV1";
+function bestScore(){try{return Number(localStorage.getItem(BEST_KEY)||0)}catch(e){return 0}}
+function saveBest(n){try{localStorage.setItem(BEST_KEY,String(n))}catch(e){}}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function playTone(kind){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume();const now=audioCtx.currentTime;const notes=kind==="good"?[660,880]:kind==="bad"?[220,165]:[523,659,784];notes.forEach((freq,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type="sine";o.frequency.value=freq;g.gain.setValueAtTime(.0001,now+i*.09);g.gain.exponentialRampToValueAtTime(.12,now+i*.09+.02);g.gain.exponentialRampToValueAtTime(.0001,now+i*.09+.18);o.connect(g);g.connect(audioCtx.destination);o.start(now+i*.09);o.stop(now+i*.09+.2)})}catch(e){}}
+function updateStats(){$("score").textContent=score.toLocaleString("pt-BR");$("lives").textContent="♥ ".repeat(lives).trim()+" "+ "♡ ".repeat(3-lives).trim();$("streak").textContent=streak+" 🔥";$("counter").textContent=`PERGUNTA ${Math.min(index+1,deck.length)} DE ${deck.length}`;$("percent").textContent=Math.round(index/deck.length*100)+"%";$("progressBar").style.width=(index/deck.length*100)+"%"}
+function showQuestion(){locked=false;$("feedback").style.display="none";$("controls").style.display="grid";const q=deck[index];$("qNumber").textContent=`AFIRMAÇÃO ${String(index+1).padStart(2,"0")}`;$("statement").textContent=q.t;$("questionCard").style.transform="translateX(0) rotate(0deg)";$("questionCard").style.opacity="1";$("questionCard").style.borderColor="#12304A";$("trueLabel").style.opacity=0;$("falseLabel").style.opacity=0;updateStats()}
+function startGame(){deck=shuffle([...questions]);index=0;score=0;lives=3;streak=0;correct=0;newRecord=false;$("intro").style.display="none";$("result").style.display="none";$("game").style.display="block";showQuestion()}
+function answer(value){if(locked)return;locked=true;const q=deck[index], ok=value===q.a;const card=$("questionCard");card.style.transform=value?"translateX(22px) rotate(2deg)":"translateX(-22px) rotate(-2deg)";card.style.borderColor=ok?"var(--green)":"var(--red)";$("controls").style.display="none";if(ok){correct++;streak++;const bonus=streak>=2?Math.min((streak-1)*25,100):0;score+=100+bonus;playTone("good");$("feedbackTitle").textContent="✓ Muito bem!"+(bonus?` +${bonus} de bônus!`:" +100 pontos!");$("feedback").className="feedback good"}else{lives--;streak=0;playTone("bad");$("feedbackTitle").textContent="✕ Quase! A resposta era "+(q.a?"VERDADEIRA.":"FALSA.");$("feedback").className="feedback bad"}$("feedbackText").textContent=q.e;$("feedback").style.display="block";updateStats();$("percent").textContent=Math.round((index+1)/deck.length*100)+"%";$("progressBar").style.width=((index+1)/deck.length*100)+"%";$("counter").textContent=`PERGUNTA ${index+1} DE ${deck.length}`;$("nextBtn").textContent=(lives<=0||index===deck.length-1)?"VER RESULTADO →":"PRÓXIMA AFIRMAÇÃO →";if(ok&&streak>=3)confetti(18)}
+function nextQuestion(){if(!locked)return;index++;if(lives<=0||index>=deck.length){finishGame();return}showQuestion()}
+function confetti(n=60){const colors=["#12304A","#F08A1C","#D9352E","#F2B33D","#6B4FA0"];for(let i=0;i<n;i++){const el=document.createElement("i");el.className="confetti";el.style.left=Math.random()*100+"vw";el.style.background=colors[Math.floor(Math.random()*colors.length)];el.style.animationDelay=Math.random()*.6+"s";el.style.animationDuration=(1.7+Math.random()*1.5)+"s";el.style.transform=`rotate(${Math.random()*360}deg)`;document.body.appendChild(el);setTimeout(()=>el.remove(),3800)}}
+function finishGame(){ $("game").style.display="none";$("result").style.display="block";const pct=Math.round(correct/deck.length*100);$("finalScore").textContent=score.toLocaleString("pt-BR");$("finalCorrect").textContent=`${correct}/${deck.length}`;$("finalPercent").textContent=pct+"%";let best=bestScore();newRecord=score>best;if(newRecord){saveBest(score);best=score} $("recordNote").textContent=newRecord?"🏆 Novo recorde pessoal!":`Recorde pessoal: ${best.toLocaleString("pt-BR")} pontos`;if(lives<=0){$("resultIcon").textContent="🧪";$("resultTitle").textContent="Experimento encerrado!";$("resultMessage").textContent=`Você ficou sem vidas, mas cada erro é uma chance de aprender. Você acertou ${correct} afirmações. Tente de novo e supere sua pontuação!`}else if(pct>=85){$("resultIcon").textContent="🏆";$("resultTitle").textContent="Mestre do inglês!";$("resultMessage").textContent=`Excelente! Você concluiu o desafio com ${pct}% de acertos. Continue praticando para dominar ainda mais o inglês.`;confetti(100);playTone("win")}else if(pct>=60){$("resultIcon").textContent="🚀";$("resultTitle").textContent="Ótimo trabalho!";$("resultMessage").textContent=`Você terminou com ${pct}% de acertos. Revise as explicações e jogue novamente para melhorar ainda mais.`;confetti(35)}else{$("resultIcon").textContent="💡";$("resultTitle").textContent="Continue explorando!";$("resultMessage").textContent=`Você terminou com ${pct}% de acertos. Pratique o verbo to be e o vocabulário e tente novamente — você consegue!`}}
+$("startBtn").addEventListener("click",startGame);$("againBtn").addEventListener("click",startGame);$("homeBtn").addEventListener("click",()=>{$("result").style.display="none";$("intro").style.display="block"});$("falseBtn").addEventListener("click",()=>answer(false));$("trueBtn").addEventListener("click",()=>answer(true));$("nextBtn").addEventListener("click",nextQuestion);
+$("soundBtn").addEventListener("click",()=>{soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊 Som ligado":"🔇 Som desligado";if(soundOn)playTone("good")});
+const card=$("questionCard");
+card.addEventListener("pointerdown",e=>{if(locked)return;pointerStart={x:e.clientX,y:e.clientY,id:e.pointerId};card.classList.add("dragging");try{card.setPointerCapture(e.pointerId)}catch(err){}});
+card.addEventListener("pointermove",e=>{if(!pointerStart||locked)return;const dx=e.clientX-pointerStart.x,dy=e.clientY-pointerStart.y;if(Math.abs(dx)>Math.abs(dy)){card.style.transform=`translateX(${dx}px) rotate(${dx*.035}deg)`;$("trueLabel").style.opacity=Math.max(0,Math.min(1,dx/100));$("falseLabel").style.opacity=Math.max(0,Math.min(1,-dx/100))}});
+function endPointer(e){if(!pointerStart)return;const dx=e.clientX-pointerStart.x;card.classList.remove("dragging");pointerStart=null;if(!locked&&Math.abs(dx)>85){answer(dx>0)}else if(!locked){card.style.transform="translateX(0) rotate(0deg)";$("trueLabel").style.opacity=0;$("falseLabel").style.opacity=0}}
+card.addEventListener("pointerup",endPointer);card.addEventListener("pointercancel",endPointer);
+document.addEventListener("keydown",e=>{if($("game").style.display!=="block")return;if(!locked&&(e.key==="ArrowLeft"||e.key.toLowerCase()==="f"))answer(false);else if(!locked&&(e.key==="ArrowRight"||e.key.toLowerCase()==="v"))answer(true);else if(locked&&e.key==="Enter")nextQuestion()});
+</script>
+</body>
+</html>
