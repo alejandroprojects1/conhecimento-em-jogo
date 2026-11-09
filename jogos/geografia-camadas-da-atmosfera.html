@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verdadeiro ou Falso — Camadas da Atmosfera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,600&family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--navy:#12304A;--navy-2:#0C2236;--orange:#F08A1C;--orange-ink:#B4530A;--red:#D9352E;--red-ink:#B42A23;--gold:#F2B33D;--cream:#EDE3C4;--green:#5E8C61;--paper:#FBF8F1;--white:#FFFFFF;--muted:#5B7186;--line:#DCE3EA;--mist:#EEF3F7;--serif:'Fraunces',Georgia,serif;--sans:'Nunito Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:var(--sans);background:var(--paper);color:var(--navy)}
+button{font-family:inherit}button:focus-visible,.swipe-card:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.band{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));height:22px}
+.band i{display:block;position:relative;overflow:hidden}
+.band i:nth-child(6n+1){background:var(--navy)}.band i:nth-child(6n+2){background:var(--orange)}.band i:nth-child(6n+3){background:var(--cream)}.band i:nth-child(6n+4){background:var(--red)}.band i:nth-child(6n+5){background:var(--gold)}.band i:nth-child(6n+6){background:var(--navy)}
+.band i:nth-child(odd)::after{content:"";position:absolute;inset:0;background:var(--gold);clip-path:polygon(0 0,100% 0,0 100%)}
+.band i:nth-child(4n+2)::after{content:"";position:absolute;inset:0;background:var(--cream);border-radius:0 100% 0 0;clip-path:none}
+.band i:nth-child(5n)::after{background:var(--navy)}
+.page{width:min(100%,640px);margin:0 auto;padding:16px 16px 20px}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+.brandhome{display:flex;align-items:center;gap:10px}
+.mark{display:grid;grid-template-columns:repeat(2,9px);gap:4px;flex:none}.mark i{display:block;width:9px;height:9px}
+.brandhome b{font-family:var(--serif);font-weight:600;font-size:15px}.brandhome b em{font-style:italic;font-weight:400;color:var(--orange-ink)}
+.disc{padding:6px 12px;border-radius:999px;background:var(--green);color:var(--white);font-size:10.5px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.app{background:var(--white);border:1px solid var(--line);padding:clamp(20px,5vw,32px);border-radius:24px;box-shadow:0 10px 30px rgba(18,48,74,.06)}
+header{position:relative;text-align:center}
+.planet{display:flex;justify-content:center;margin-bottom:6px}
+.layers{display:flex;flex-direction:column;align-items:center;gap:3px}
+.layers i{display:block;height:8px;border-radius:99px}
+.kicker{font-size:11.5px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--orange-ink)}
+h1{font-family:var(--serif);font-weight:600;color:var(--navy);font-size:clamp(28px,6vw,40px);line-height:1.05;margin:8px 0}
+h1 em{font-style:italic;font-weight:400;color:#C2580A}
+.sub{color:#3A5670;line-height:1.55;margin:0 0 8px}
+.author{font-size:13px;color:var(--muted);margin:0 0 22px}.author b{color:var(--navy)}
+.top{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:900;color:var(--navy);margin-bottom:10px}
+.track{height:10px;background:var(--mist);border-radius:20px;overflow:hidden;margin-bottom:22px}
+.bar{height:100%;width:0;background:var(--orange);border-radius:20px;transition:width .25s}
+.swipe-area{position:relative;min-height:300px;display:flex;align-items:stretch;justify-content:center;touch-action:pan-y;padding:8px 4px 0}
+.swipe-area::before,.swipe-area::after{content:"";position:absolute;left:10%;right:10%;top:22px;bottom:8px;border-radius:24px}
+.swipe-area::before{background:var(--gold);transform:rotate(-3.5deg)}.swipe-area::after{background:var(--green);transform:rotate(3deg)}
+.swipe-card{position:relative;z-index:1;width:min(100%,460px);min-height:290px;padding:34px 22px 26px;border:2px solid var(--navy);border-radius:24px;background:var(--white);color:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;cursor:grab;user-select:none;touch-action:pan-y;box-shadow:0 18px 40px rgba(18,48,74,.18);transition:background .15s,border-color .15s}
+.swipe-card .corner{position:absolute;left:16px;top:12px;font-family:var(--serif);font-weight:600;font-size:21px;line-height:1}
+.swipe-card .corner.bottom{left:auto;top:auto;right:16px;bottom:12px;transform:rotate(180deg)}
+.tagline{display:inline-block;padding:6px 12px;border-radius:999px;background:#E4EFE4;color:#3D6340;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.question{font-family:var(--serif);font-size:clamp(21px,4.6vw,27px);line-height:1.3;font-weight:600;color:var(--navy)}
+.status{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.swipe-card.correct{background:#FFF8EE;border-color:var(--orange)}
+.swipe-card.wrong{background:#FEF3F2;border-color:var(--red)}
+.swipe-card.correct .status{color:#9A4508}.swipe-card.wrong .status{color:var(--red-ink)}
+.stamp{position:absolute;top:-16px;padding:5px 12px;border:3px solid currentColor;border-radius:8px;background:var(--white);font-size:15px;font-weight:900;letter-spacing:.14em;opacity:0;pointer-events:none}
+.stamp.v{left:34px;color:var(--orange-ink);transform:rotate(-12deg)}
+.stamp.f{right:34px;color:var(--red-ink);transform:rotate(12deg)}
+.hint{display:flex;justify-content:space-between;gap:10px;margin-top:14px;font-size:11px;font-weight:900;letter-spacing:.06em}
+.hint span:first-child{color:var(--red-ink)}.hint span:last-child{color:var(--orange-ink)}
+.answer-buttons{display:flex;gap:12px;margin-top:12px}
+.answer-buttons button{flex:1;border:0;border-radius:16px;padding:15px 10px;font-size:15px;font-weight:900;letter-spacing:.06em;cursor:pointer;transition:transform .12s,filter .12s}
+.answer-buttons button:hover{transform:translateY(-2px);filter:brightness(1.04)}
+.answer-buttons button:first-child{background:var(--red);color:var(--white)}
+.answer-buttons button:last-child{background:var(--orange);color:var(--navy)}
+.feedback{display:none;margin-top:16px;padding:14px 16px;border-radius:16px;line-height:1.5;font-weight:800}
+.feedback.show{display:block}
+.good{background:#FFF4E5;border:1.5px solid #F7C98F;color:#9A4508}
+.bad{background:#FDEEEC;border:1.5px solid #F2B7B2;color:var(--red-ink)}
+.actions{text-align:center;margin-top:16px}
+.primary{border:0;border-radius:14px;padding:15px 24px;background:var(--navy);color:var(--white);font-size:16px;font-weight:900;cursor:pointer;transition:background .15s,transform .15s}
+.primary:hover:not(:disabled){background:var(--navy-2);transform:translateY(-1px)}
+.primary:disabled{opacity:.35;cursor:not-allowed}
+#result{text-align:center;display:none;padding:10px 0}
+#result h2{font-family:var(--serif);font-weight:600;font-size:34px;color:var(--navy);margin:10px 0 0}
+.score{font-family:var(--serif);font-size:60px;font-weight:600;margin:14px;color:var(--navy)}
+.resultText{font-size:17px;line-height:1.55;color:#3A5670}
+footer{text-align:center;color:var(--muted);font-size:12px;line-height:1.6;margin-top:18px}
+footer b{color:var(--navy)}footer a{font-weight:800;color:var(--orange-ink)}
+@media(max-width:380px){.swipe-card{min-height:270px}}
+</style></head><body>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="page">
+<div class="brandbar"><div class="brandhome"><span class="mark" aria-hidden="true"><i style="background:#12304A"></i><i style="background:#F08A1C"></i><i style="background:#D9352E"></i><i style="background:#F2B33D"></i></span><b>Conhecimento <em>em Jogo</em></b></div><span class="disc">Geografia</span></div>
+<main class="app">
+<header>
+  <div class="planet" aria-hidden="true"><div class="layers"><i style="width:120px;background:#DDEFF2"></i><i style="width:96px;background:#F2B33D"></i><i style="width:74px;background:#F08A1C"></i><i style="width:54px;background:#5E8C61"></i><i style="width:36px;background:#12304A"></i></div></div>
+  <div class="kicker">Jogo das camadas da atmosfera</div>
+  <h1>Verdadeiro <em>ou Falso?</em></h1>
+  <p class="sub">Leia a frase e arraste para a direita ou para a esquerda!</p>
+  <p class="author">Criado por <b>Yoane F.</b> · 6º ano</p>
+</header>
+<section id="game"><div class="top"><span id="counter">Pergunta 1 de 30</span><span id="points">Pontos: 0</span></div><div class="track"><div class="bar" id="bar"></div></div>
+<div class="swipe-area"><div class="swipe-card" id="swipeCard" role="button" tabindex="0" aria-label="Arraste para responder"><span class="corner" aria-hidden="true">V</span><span class="tagline">Atmosfera</span><div class="question" id="question"></div><div class="status" id="cardStatus"></div><span class="corner bottom" aria-hidden="true">F</span><div class="stamp v" id="stampV" aria-hidden="true">VERDADEIRO</div><div class="stamp f" id="stampF" aria-hidden="true">FALSO</div></div></div>
+<div class="hint"><span>← ESQUERDA: FALSO</span><span>DIREITA: VERDADEIRO →</span></div>
+<div class="answer-buttons"><button onclick="answer(false)">← Falso</button><button onclick="answer(true)">Verdadeiro →</button></div>
+<div class="feedback" id="feedback" role="status" aria-live="polite"></div><div class="actions"><button class="primary" id="next" onclick="nextQuestion()" disabled>Próxima pergunta ➜</button></div></section>
+<section id="result"><div class="planet" aria-hidden="true"><div class="layers"><i style="width:120px;background:#DDEFF2"></i><i style="width:96px;background:#F2B33D"></i><i style="width:74px;background:#F08A1C"></i><i style="width:54px;background:#5E8C61"></i><i style="width:36px;background:#12304A"></i></div></div><h2>Você terminou!</h2><div class="score" id="finalScore"></div><p class="resultText" id="message"></p><button class="primary" onclick="restart()">Jogar novamente ↻</button></section>
+</main>
+<footer>Aprenda brincando • Camadas da atmosfera<br><b>Conhecimento em Jogo</b> · Inclusão Digital · Projeto de Alejandro C. Melgaço<br><a href="../index.html">← Ver todos os jogos da coletânea</a></footer>
+</div>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<script>
+const questions = [{"q": "A atmosfera é formada por gases que envolvem a Terra.", "a": true}, {"q": "A atmosfera não é importante para a vida na Terra.", "a": false}, {"q": "A troposfera é a camada onde vivemos.", "a": true}, {"q": "A maior parte dos fenômenos meteorológicos acontece na troposfera.", "a": true}, {"q": "A estratosfera fica abaixo da troposfera.", "a": false}, {"q": "A camada de ozônio fica na estratosfera.", "a": true}, {"q": "A camada de ozônio ajuda a proteger a Terra dos raios ultravioleta do Sol.", "a": true}, {"q": "A mesosfera é a camada mais próxima da superfície terrestre.", "a": false}, {"q": "Muitos meteoros queimam ao entrar na atmosfera na mesosfera.", "a": true}, {"q": "A termosfera fica acima da mesosfera.", "a": true}, {"q": "A aurora polar pode ocorrer na termosfera.", "a": true}, {"q": "A exosfera é a camada mais externa da atmosfera.", "a": true}, {"q": "A exosfera fica mais próxima da superfície da Terra do que a troposfera.", "a": false}, {"q": "A atmosfera é dividida em cinco camadas principais.", "a": true}, {"q": "A troposfera é a camada mais distante da Terra.", "a": false}, {"q": "Na troposfera, a temperatura geralmente diminui com a altitude.", "a": true}, {"q": "Na estratosfera, a temperatura aumenta em direção às partes mais altas.", "a": true}, {"q": "A mesosfera é conhecida por ser muito fria.", "a": true}, {"q": "A atmosfera ajuda a manter condições adequadas para a vida.", "a": true}, {"q": "O ar da atmosfera é composto somente por oxigênio.", "a": false}, {"q": "O nitrogênio é o gás mais abundante da atmosfera terrestre.", "a": true}, {"q": "O oxigênio presente na atmosfera é importante para a respiração de muitos seres vivos.", "a": true}, {"q": "A camada de ozônio fica na exosfera.", "a": false}, {"q": "As nuvens e as chuvas estão relacionadas a fenômenos que acontecem na troposfera.", "a": true}, {"q": "A atmosfera ajuda a proteger a Terra de parte da radiação solar nociva.", "a": true}, {"q": "A termosfera é a camada mais baixa da atmosfera.", "a": false}, {"q": "A exosfera faz a transição entre a atmosfera e o espaço exterior.", "a": true}, {"q": "A altitude é a distância vertical em relação ao nível do mar ou a uma referência.", "a": true}, {"q": "Todas as camadas da atmosfera têm exatamente a mesma temperatura.", "a": false}, {"q": "Sem a atmosfera, a vida na Terra seria muito mais difícil.", "a": true}];
+let index=0, score=0, locked=false;
+function setStamps(v,f){document.getElementById('stampV').style.opacity=v;document.getElementById('stampF').style.opacity=f}
+function render(){locked=false;document.getElementById('counter').textContent=`Pergunta ${index+1} de ${questions.length}`;document.getElementById('points').textContent=`Pontos: ${score}`;document.getElementById('bar').style.width=`${index/questions.length*100}%`;document.getElementById('question').textContent=questions[index].q;let card=document.getElementById('swipeCard');card.className='swipe-card';card.style.borderColor='';card.style.transform='translateX(0) rotate(0deg)';document.getElementById('cardStatus').textContent='↔ Arraste para responder!';setStamps(0,0);let fb=document.getElementById('feedback');fb.className='feedback';fb.textContent='';document.getElementById('next').disabled=true;document.getElementById('next').textContent=index===questions.length-1?'Ver resultado 🏆':'Próxima pergunta ➜'}
+function answer(value){if(locked)return;locked=true;let q=questions[index],correct=value===q.a;if(correct)score++;let card=document.getElementById('swipeCard');card.classList.add(correct?'correct':'wrong');document.getElementById('cardStatus').textContent=value?'Você arrastou para a direita: VERDADEIRO':'Você arrastou para a esquerda: FALSO';setStamps(value?1:0,value?0:1);card.style.transform='translateX(0) rotate(0deg)';let fb=document.getElementById('feedback');fb.className='feedback show '+(correct?'good':'bad');fb.textContent=correct?'🎉 Muito bem! Você acertou!':`Ops! A resposta correta é ${q.a?'VERDADEIRO':'FALSO'}.`;document.getElementById('points').textContent=`Pontos: ${score}`;document.getElementById('bar').style.width=`${(index+1)/questions.length*100}%`;document.getElementById('next').disabled=false}
+function nextQuestion(){if(!locked)return;if(index<questions.length-1){index++;render()}else finish()}
+function finish(){document.getElementById('game').style.display='none';document.getElementById('result').style.display='block';document.getElementById('finalScore').textContent=`${score} / ${questions.length}`;let pct=score/questions.length;document.getElementById('message').textContent=pct===1?'Perfeito! Você sabe muito sobre a atmosfera! 🌟':pct>=.7?'Muito bem! Você aprendeu bastante sobre a atmosfera! 🌎':pct>=.4?'Bom trabalho! Jogue de novo para aprender ainda mais! 💪':'Continue estudando e tente outra vez. Você consegue! 📚';document.getElementById('bar').style.width='100%'}
+function restart(){index=0;score=0;document.getElementById('game').style.display='block';document.getElementById('result').style.display='none';render()}
+
+const swipeCard=document.getElementById('swipeCard');
+let startX=null, dragging=false;
+swipeCard.addEventListener('pointerdown',e=>{if(locked)return;startX=e.clientX;dragging=true;swipeCard.setPointerCapture(e.pointerId)});
+swipeCard.addEventListener('pointermove',e=>{if(!dragging||locked||startX===null)return;let dx=e.clientX-startX;swipeCard.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;swipeCard.style.borderColor=dx>25?'#F08A1C':dx< -25?'#D9352E':'#12304A';const k=Math.min(Math.abs(dx)/65,1);setStamps(dx>0?k:0,dx<0?k:0)});
+swipeCard.addEventListener('pointerup',e=>{if(!dragging||locked||startX===null)return;let dx=e.clientX-startX;dragging=false;startX=null;if(dx>65)answer(true);else if(dx< -65)answer(false);else{swipeCard.style.transform='translateX(0) rotate(0deg)';swipeCard.style.borderColor='';setStamps(0,0)}});
+swipeCard.addEventListener('pointercancel',()=>{dragging=false;startX=null;swipeCard.style.transform='translateX(0) rotate(0deg)';setStamps(0,0)});
+swipeCard.addEventListener('keydown',e=>{if(e.key==='ArrowRight')answer(true);if(e.key==='ArrowLeft')answer(false)});
+
+render();
+</script></body></html>
